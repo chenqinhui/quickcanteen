@@ -4,7 +4,6 @@ import android.app.Activity;
 import com.quickcanteen.quickcanteen.actions.BaseActionImpl;
 import com.quickcanteen.quickcanteen.actions.search.ISearchAction;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
-import com.quickcanteen.quickcanteen.utils.HttpUtils;
 import org.json.JSONException;
 
 import java.io.IOException;

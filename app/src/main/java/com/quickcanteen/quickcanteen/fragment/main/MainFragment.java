@@ -61,7 +61,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        companyAction= new CompanyActionImpl(getActivity());
+        companyAction = new CompanyActionImpl(getActivity());
         chooseCompany = (Spinner) getActivity().findViewById(R.id.chooseCompany);
         //测试数据
         company.add("河西食堂");
@@ -171,8 +171,8 @@ public class MainFragment extends Fragment {
         @Override
         public void run() {
             try {
-                BaseJson baseJson=companyAction.getCompanyInfoByCompanyId(1);
-                CompanyInfoBean companyInfoBean=new CompanyInfoBean(baseJson.getJSONObject());
+                BaseJson baseJson = companyAction.getCompanyInfoByCompanyId(1);
+                CompanyInfoBean companyInfoBean = new CompanyInfoBean(baseJson.getJSONObject());
                 detailCanteenList.add(companyInfoBean);
             } catch (Exception e) {
                 handler.post(new Runnable() {
