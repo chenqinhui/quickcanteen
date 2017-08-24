@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:text="搜索菜品名称"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/dishesName" android:layout_weight="1"
+            android:textSize="18sp" android:textColor="@color/color_text_black"/>
+    <TextView
+            android:text="菜品价格"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/dishesPrice" android:layout_weight="1"
+            android:textSize="18sp" android:textColor="@color/color_dishes_introduction_price"/>
+</LinearLayout>

@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">吃食堂</string>
+
+    <!-- buttons on the bottom -->
+    <string name="mainPage">首页</string>
+    <string name="order">订单</string>
+    <string name="personalPage">我的</string>
+
+    <!-- personal page -->
+    <string name="remainerStr">余额</string>
+    <string name="points">积分</string>
+    <string name="myorder">我的订单</string>
+    <string name="collect">我的收藏</string>
+    <string name="help">帮助中心</string>
+    <string name="advice">建议与反馈</string>
+
+    <!-- help center -->
+    <string name="submit">提交</string>
+    <string name="title_activity_login_page">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="telephone">账号（学号）</string>
+    <string name="password">密码</string>
+    <string name="action_sign_in">登录</string>
+    <string name="login_in_submit">登录</string>
+    <string name="error_invalid_telephone">该手机号不可用</string>
+    <string name="error_invalid_password">该密码是无效的</string>
+    <string name="error_incorrect_password">密码错误</string>
+    <string name="error_field_required">请填写手机号和密码</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+
+    <!-- Strings related to starting page -->
+    <string name="register">还没有注册？</string>
+    <string name="login">戳我去登录>></string>
+
+    <!-- Strings related to user information -->
+    <string name="user_portrait">头像</string>
+    <string name="user_name">真实姓名</string>
+    <string name="user_school">学院</string>
+    <string name="user_id">学号</string>
+    <string name="user_telephone">手机</string>
+    <string name="exit">退出当前账号</string>
+
+    <!--Strings related to register-->
+    <string name="identifying_number">验证码</string>
+    <string name="send_identifying_number">发送验证码</string>
+    <string name="set_password">设置密码</string>
+    <string name="confirm_password">再次输入密码</string>
+
+    <string name="error_signed_telephone">该号码已经被注册</string>
+    <string name="error_information_not_matched">姓名或学号不正确</string>
+    <string name="error_wrong_telephone">您输入的手机号码格式不正确</string>
+    <string name="error_wrong_password">密码格式不正确，请输入4~16位密码</string>
+    <string name="error_has_empty">请输入全部信息</string>
+    <string name="error_password_not_same">两次密码输入不一致</string>
+
+    <!--Strings related to dishes introduction-->
+    <string name="assess_title">评价</string>
+    <string name="user_assess">好吃！不用排队很棒！</string>
+    <string name="none_assess">该商品还没有评论</string>
+
+    <!--String related to top toolbar-->
+    <string name="action_collect">喜欢</string>
+    <string name="action_share">分享</string>
+    <string name="action_settings">设置</string>
+    <string name="action_edit">编辑</string>
+
+    <!--String related to refresh-->
+    <string name="refresh_succeed">刷新成功</string>
+    <string name="refresh_fail">刷新失败</string>
+    <string name="pull_to_refresh">下拉刷新</string>
+    <string name="release_to_refresh">释放刷新</string>
+    <string name="refreshing">正在刷新</string>
+    <string name="not_updated_yet">暂未更新过</string>
+    <string name="updated_at">上次更新于%1$s前</string>
+    <string name="updated_just_now">刚刚更新</string>
+    <string name="time_error">时间有问题</string>
+
+    <!--String related to main page-->
+    <string-array name="company">
+        <item>河西食堂</item>
+        <item>河东食堂</item>
+        <item>丽娃食堂</item>
+    </string-array>
+    <string name="title_activity_fragment">fragmentActivity</string>
+
+</resources>

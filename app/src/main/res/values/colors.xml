@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#73edc0</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#73edc0</color>
+
+
+
+    <color name="colorBasic4">#dedddd</color>
+
+    <color name="colorTransparent">#28000000</color>
+
+
+    <!--colors for whole project-->
+    <color name="color_text_black">#000000</color>
+    <color name="color_text_hint">#a1a1a1</color>
+    <color name="color_text_red">#fe3916</color>
+    <color name="color_text_brown">#bf8461</color>
+    <color name="color_text_yellow">#efe4b0</color>
+    <color name="color_background_bottom">#f6f6f6</color>
+    <color name="color_background_toolbar">#73edc0</color>
+    <color name="color_bottom">#a1dec7</color>
+    <color name="color_background_white">#ffffff</color>
+    <color name="color_background_pink">#73edc0</color>
+    <color name="color_background_light_pink">#f1f6f6f6</color>
+    <color name="color_text_white">#ffffff</color>
+    <color name="color_text_gray">#878787</color>
+    <color name="color_divider_line">#e7e7e7</color>
+
+    <!--colors for dishes introduction page-->
+    <color name="color_dishes_introduction_price">#ff4444</color>
+    <color name="color_dishes_introduction_add_cart">#bf8461</color>
+    <color name="color_dishes_introduction_attention">#ffb5ba</color>
+    <color name="color_dishes_introduction_dishes_img">#efe4b0</color>
+    <color name="color_dishes_introduction_none_assess">#a1a1a1</color>
+    <color name="color_dishes_introduction_decrease">#ffb5ba</color>
+    <color name="color_dishes_introduction_increase">#ffb5ba</color>
+
+    <!--colors for initial page-->
+    <color name="color_initial_button">#e9f3fa</color>
+
+    <!--colors for login page-->
+    <color name="color_login_password_attention">#ffb5ba</color>
+    <color name="color_login_button">#ffb5ba</color>
+
+    <!--colors for personal page-->
+    <color name="color_personal_line">#fff2f3</color>
+
+    <!--colors for user information-->
+    <color name="color_personal_information_exit">#d81313</color>
+
+    <!--colors for advice page-->
+    <color name="color_advice_button">#ffb5ba</color>
+
+    <!--colors for register page-->
+    <color name="color_register_line">#fff2f3</color>
+    <color name="color_register_submit">#ffb5ba</color>
+    <color name="color_register_send_identifying_number">#ffb5ba</color>
+
+    <!--colors for main page. -->
+    <color name="color_mainPage_canteenName">#696969</color>
+    <color name="color_mainPage_sortName">#808080</color>
+    <color name="color_mainPage_splitLine">#000000</color>
+
+    <!--colors for history order page-->
+    <color name="color_history_order_none_attention">#a1a1a1</color>
+    <color name="color_history_order_item_pressed">#f0f0f0</color>
+    <color name="color_history_order_line">#f0f0f0</color>
+    <color name="color_history_order_price">#ff4444</color>
+    <color name="color_history_order_btn_text">#ffb5ba</color>
+
+
+
+    <color name="color_button_pink">#ffb5ba</color>
+    <color name="color_line_gray">#878787</color>
+    <color name="divider_gray">#878787</color>
+    <color name="teal">#009b89</color>
+    <color name="pink">#db1a6e</color>
+    <color name="blue">#4497da</color>
+    <color name="grey">#607D8B</color>
+    <color name="orange">#ed9e4c</color>
+    <color name="white">#ffffff</color>
+</resources>

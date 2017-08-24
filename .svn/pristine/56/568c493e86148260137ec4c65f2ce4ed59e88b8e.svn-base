@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical" android:id="@+id/recommendItem">
+
+    <ImageView
+            android:layout_width="150dp"
+            android:layout_height="100dp" app:srcCompat="@drawable/menu2" android:id="@+id/recommendImg"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="小馄饨"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/recommendName" android:textAlignment="viewStart"
+                android:textSize="18sp" android:textColor="@color/color_text_black"
+                android:layout_margin="5dp"/>
+        <TextView
+                android:text="￥8.00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recommendPrice"
+                android:layout_margin="5dp"
+                android:textSize="18sp" android:textStyle="normal|bold"
+                android:textColor="@color/color_dishes_introduction_price"/>
+    </LinearLayout>
+</LinearLayout>

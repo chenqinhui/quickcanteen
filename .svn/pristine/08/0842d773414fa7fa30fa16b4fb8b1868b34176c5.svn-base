@@ -1,0 +1,103 @@
+package bean;
+
+import model.CompanyInfo;
+
+import java.sql.Timestamp;
+
+
+/**
+ * CompanyInfo entity. @author MyEclipse Persistence Tools
+ */
+
+public class CompanyInfoBean implements java.io.Serializable {
+
+    // Fields
+
+    private Integer companyId;
+    private String companyName;
+    private String accountNumber;
+    private String password;
+    private Timestamp startTime;
+    private Timestamp endTime;
+
+    // Constructors
+
+    /**
+     * default constructor
+     */
+    public CompanyInfoBean() {
+    }
+
+    /**
+     * minimal constructor
+     */
+    public CompanyInfoBean(String companyName, String accountNumber, String password, Timestamp startTime,
+                           Timestamp endTime) {
+        this.companyName = companyName;
+        this.accountNumber = accountNumber;
+        this.password = password;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public CompanyInfoBean(CompanyInfo companyInfo) {
+        this.companyId = companyInfo.getCompanyId();
+        this.companyName = companyInfo.getCompanyName();
+        this.accountNumber = companyInfo.getAccountNumber();
+        this.password = companyInfo.getPassword();
+        this.startTime = companyInfo.getStartTime();
+        this.endTime = companyInfo.getEndTime();
+    }
+
+    // Property accessors
+
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getAccountNumber() {
+        return this.accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Timestamp getStartTime() {
+        return this.startTime;
+    }
+
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
+
+    public Timestamp getEndTime() {
+        return this.endTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
+    }
+
+}

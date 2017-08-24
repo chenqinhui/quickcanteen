@@ -1,0 +1,14 @@
+package com.quickcanteen.quickcanteen.actions.company.impl;
+
+import android.app.Activity;
+import com.quickcanteen.quickcanteen.actions.BaseActionImpl;
+import com.quickcanteen.quickcanteen.actions.company.ICompanyAction;
+
+/**
+ * Created by 11022 on 2017/6/30.
+ */
+public class CompanyActionImpl extends BaseActionImpl implements ICompanyAction {
+    public CompanyActionImpl(Activity activity) {
+        super(activity);
+    }
+}

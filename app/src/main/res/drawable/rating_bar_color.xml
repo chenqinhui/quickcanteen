@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_height="40dp"
+             android:layout_width="200dp">
+    <item android:id="@+id/background"
+          android:drawable="@drawable/star_empty" />
+    <item android:id="@+id/secondaryProgress"
+          android:drawable="@drawable/star_half" />
+    <item android:id="@+id/progress"
+          android:drawable="@drawable/star_full" />
+</layer-list>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+              android:background="@drawable/style_history_order"
+              android:descendantFocusability="blocksDescendants"
+              android:layout_height="wrap_content">
+    <ImageButton
+            android:layout_width="128dp"
+            android:layout_height="110dp"
+            android:id="@+id/canteenImg"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            app:srcCompat="@drawable/a" android:background="@color/colorBasic4"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="食堂一楼"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/canteenName"
+                android:textSize="22sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/color_text_black" android:textStyle="normal|bold"/>
+        <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/canteenRating"
+                android:layout_margin="5dp"
+                style="@style/Base.Widget.AppCompat.RatingBar.Small" android:numStars="5" android:rating="4"/>
+        <TextView
+                android:text="可配送、可自取"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:id="@+id/takeWay" android:layout_weight="1"/>
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" app:srcCompat="@color/color_divider_line"
+                android:layout_margin="5dp"
+                android:id="@+id/line"/>
+        <TextView
+                android:text="优惠活动"
+                android:layout_width="match_parent"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content" android:id="@+id/favourableActivity"/>
+    </LinearLayout>
+</LinearLayout>
