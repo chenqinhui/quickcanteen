@@ -108,7 +108,7 @@ public class HistoryOrderFragment extends android.support.v4.app.Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         historyOrdersList.setLayoutManager(linearLayoutManager);
         new Thread(new MyThread()).start();
-        adapter=new HistoryOrdersAdapter(orderBeans,getActivity());
+        adapter = new HistoryOrdersAdapter(orderBeans, getActivity());
         historyOrdersList.setAdapter(adapter);
         historyOrdersList.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
