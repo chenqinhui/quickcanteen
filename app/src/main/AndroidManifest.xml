@@ -38,6 +38,8 @@
         </activity>
         <activity android:name=".activities.userinformation.EditPassword">
         </activity>
+        <activity android:name=".activities.userinformation.EditUserInfo">
+        </activity>
         <activity android:name=".activities.userinformation.UserInformation">
         </activity>
         <activity android:name=".activities.CommentActivity">

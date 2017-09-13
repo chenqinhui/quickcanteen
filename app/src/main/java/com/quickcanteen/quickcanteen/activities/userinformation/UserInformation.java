@@ -52,6 +52,15 @@ public class UserInformation extends BaseActivity {
                 startActivity(intent);
             }
         });
+        teleNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("infoType","telephone");
+                intent.setClass(UserInformation.this,EditUserInfo.class);
+                startActivity(intent);
+            }
+        });
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
