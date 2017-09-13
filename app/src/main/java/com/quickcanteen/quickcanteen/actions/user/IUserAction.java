@@ -14,6 +14,10 @@ public interface IUserAction extends IBaseAction {
 
     BaseJson register(String accountNumber, String userPassword, String realName, String teleNum) throws IOException, JSONException;
 
+    BaseJson editPassword(int userID,String oldPassword,String newPassword)throws IOException,JSONException;
+
+    BaseJson editUserInfo(String password,int userID ,String infoType,String correctInfo)throws  IOException,JSONException;
+
     BaseJson getCurrentUserInfo() throws IOException, JSONException;
     /**
      * 验证用户信息
