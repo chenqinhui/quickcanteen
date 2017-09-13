@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by 11022 on 2017/7/1.
  */
-public class OrderBean implements Serializable{
+public class OrderBean implements Serializable {
     private Integer orderId;
     private Integer companyId;
     private String companyName;
@@ -20,16 +20,16 @@ public class OrderBean implements Serializable{
     private Long completeTime;
     private ArrayList<DishesBean> dishesList;
 
-    public OrderBean(JSONObject jsonObject) throws JSONException{
-        this.orderId =jsonObject.getInt("orderId");
-        this.companyId=jsonObject.getInt("companyId");
-        this.companyName=jsonObject.getString("companyName");
-        this.totalPrice=jsonObject.getDouble("totalPrice");
-        this.orderStatus=OrderStatus.valueOf(jsonObject.getInt("orderStatus"));
-        this.publishTime=jsonObject.getLong("publishTime");
-        this.completeTime=jsonObject.getLong("completeTime");
-        this.dishesList=new ArrayList<>();
-        JSONArray jsonArray = jsonObject.getJSONArray("dishesList");
+    public OrderBean(JSONObject jsonObject) throws JSONException {
+        this.orderId = jsonObject.getInt("orderId");
+        this.companyId = jsonObject.getInt("companyId");
+        this.companyName = jsonObject.getString("companyName");
+        this.totalPrice = jsonObject.getDouble("totalPrice");
+        this.orderStatus = OrderStatus.valueOf(jsonObject.getInt("orderStatus"));
+        this.publishTime = jsonObject.getLong("publishTime");
+        this.completeTime = jsonObject.getLong("completeTime");
+        this.dishesList = new ArrayList<>();
+        JSONArray jsonArray = jsonObject.getJSONArray("dishesBeanList");
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject tempJsonObject = jsonArray.getJSONObject(i);
             dishesList.add(new DishesBean(tempJsonObject));
