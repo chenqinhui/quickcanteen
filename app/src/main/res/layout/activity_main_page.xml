@@ -87,15 +87,15 @@
                         android:paddingBottom="10dp"
                         app:srcCompat="@color/color_divider_line"
                         android:id="@+id/line2"/>
+                <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:id="@+id/canteenList"/>
                 <TextView
                         android:text="暂无商家信息"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/noneCanteenAttention"
                         android:textAlignment="center" android:textSize="18sp"
                         android:textColor="@color/color_history_order_none_attention"/>
-                <ListView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/canteenList"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -10,9 +10,9 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
-import com.quickcanteen.quickcanteen.fragment.main.HistoryOrderFragment;
+import com.quickcanteen.quickcanteen.fragment.historyOrder.HistoryOrderFragment;
 import com.quickcanteen.quickcanteen.fragment.main.MainFragment;
-import com.quickcanteen.quickcanteen.fragment.main.PersonalFragment;
+import com.quickcanteen.quickcanteen.fragment.personal.PersonalFragment;
 
 import java.util.ArrayList;
 
