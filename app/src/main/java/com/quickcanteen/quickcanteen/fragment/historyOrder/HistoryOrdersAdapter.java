@@ -1,4 +1,4 @@
-package com.quickcanteen.quickcanteen.fragment.main;
+package com.quickcanteen.quickcanteen.fragment.historyOrder;
 
 import android.app.Activity;
 import android.content.Intent;
