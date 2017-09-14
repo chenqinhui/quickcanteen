@@ -76,7 +76,7 @@ public class GoodsItem implements Serializable {
         }
         for (TypeBean type : types) {
             int typeID = type.getTypeId();
-            List<DishesBean> dishesList = type.getDishesBeans();
+            List<DishesBean> dishesList = type.getDishesBeanList();
             for (DishesBean dishes : dishesList) {
                 item = new GoodsItem(dishes, type);
                 goodsList.add(item);

@@ -41,7 +41,7 @@ public class CommentActivity extends BaseActivity {
         Bundle bundle = this.getIntent().getExtras();
         orderBean =(OrderBean)bundle.getSerializable("orderBean");
         companyID = orderBean.getCompanyId();
-        dishesList = GoodsItem.getGoodsItemList(orderBean.getDishesList());
+        dishesList = GoodsItem.getGoodsItemList(orderBean.getDishesBeanList());
 
         //orders = (Orders) bundle.getSerializable("order");
         ordersID = bundle.getInt("ordersID");
