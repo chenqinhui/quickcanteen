@@ -52,7 +52,7 @@ public class CompleteActivity extends BaseActivity {
         pickTimeTextView.setText(new Timestamp(orders.getCompleteTime()).toString());
 
         ListView dishesView = (ListView) findViewById(R.id.dishesView);
-        SimpleAdapter adapter = new SimpleAdapter(this, getData(orders.getDishesList()), R.layout.dishes_view_content,
+        SimpleAdapter adapter = new SimpleAdapter(this, getData(orders.getDishesBeanList()), R.layout.dishes_view_content,
                 new String[]{"name", "quantity", "price"},
                 new int[]{R.id.dishName, R.id.dishQuantity, R.id.dishPrice});
         dishesView.setAdapter(adapter);

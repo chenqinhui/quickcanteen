@@ -90,7 +90,7 @@ public class OrderActivity extends BaseActivity {
         companyID = orderBean.getCompanyId();
         ordersID = orderBean.getOrderId();
         companyName= orderBean.getCompanyName();
-        list = GoodsItem.getGoodsItemList(orderBean.getDishesList());
+        list = GoodsItem.getGoodsItemList(orderBean.getDishesBeanList());
 
         companyNameTextView.setText(companyName);
 
