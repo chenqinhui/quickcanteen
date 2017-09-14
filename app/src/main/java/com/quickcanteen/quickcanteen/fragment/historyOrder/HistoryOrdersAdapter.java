@@ -1,4 +1,4 @@
-package com.quickcanteen.quickcanteen.fragment.main;
+package com.quickcanteen.quickcanteen.fragment.historyOrder;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -54,10 +54,10 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
         holder.orderCompany.setText(orderBean.getCompanyName());
         holder.orderState.setText(orderBean.getOrderStatus().getDesc());
         holder.orderPrice.setText(orderBean.getTotalPrice().toString());
-        if (orderBean.getDishesList().size() == 1) {
-            holder.orderName.setText(orderBean.getDishesList().get(0).getDishesName());
+        if (orderBean.getDishesBeanList().size() == 1) {
+            holder.orderName.setText(orderBean.getDishesBeanList().get(0).getDishesName());
         } else {
-            holder.orderName.setText(orderBean.getDishesList().get(0).getDishesName() + "等");
+            holder.orderName.setText(orderBean.getDishesBeanList().get(0).getDishesName() + "等");
         }
         holder.assessOrder.setTag(position);
         holder.addOrder.setTag(position);

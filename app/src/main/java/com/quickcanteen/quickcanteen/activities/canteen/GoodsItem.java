@@ -1,5 +1,6 @@
 package com.quickcanteen.quickcanteen.activities.canteen;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import com.quickcanteen.quickcanteen.actions.company.ICompanyAction;
 import com.quickcanteen.quickcanteen.actions.company.impl.CompanyActionImpl;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GoodsItem implements Serializable {
+    public Activity activity;
     public int id;
     public int typeId;
     public int rating;
@@ -60,11 +62,11 @@ public class GoodsItem implements Serializable {
     private static ArrayList<GoodsItem> goodsList;
     private static ArrayList<GoodsItem> typeList;
 
-    private static void initData(int companyID) throws Exception {
+    private static void initData(int companyID, Activity activity) throws Exception {
         goodsList = new ArrayList<>();
         typeList = new ArrayList<>();
         GoodsItem item = null;
-        ICompanyAction companyAction = new CompanyActionImpl(null);
+        ICompanyAction companyAction = new CompanyActionImpl(activity);
         BaseJson baseJson = companyAction.getTypesAndDishesByCompanyId(companyID);
         List<TypeBean> types = new ArrayList<>();
         JSONArray jsonArray = baseJson.getJSONArray();
@@ -74,7 +76,7 @@ public class GoodsItem implements Serializable {
         }
         for (TypeBean type : types) {
             int typeID = type.getTypeId();
-            List<DishesBean> dishesList = type.getDishesBeans();
+            List<DishesBean> dishesList = type.getDishesBeanList();
             for (DishesBean dishes : dishesList) {
                 item = new GoodsItem(dishes, type);
                 goodsList.add(item);
@@ -97,18 +99,18 @@ public class GoodsItem implements Serializable {
         }
     }
 
-    public static ArrayList<GoodsItem> getGoodsList(int companyID) throws Exception {
+    public static ArrayList<GoodsItem> getGoodsList(int companyID,Activity activity) throws Exception {
         if (oldCompanyID != companyID || goodsList == null) {
             //getData();
-            initData(companyID);
+            initData(companyID,activity);
         }
         return goodsList;
     }
 
-    public static ArrayList<GoodsItem> getTypeList(int companyID) throws Exception {
+    public static ArrayList<GoodsItem> getTypeList(int companyID,Activity activity) throws Exception {
         if (oldCompanyID != companyID || typeList == null) {
             //getData();
-            initData(companyID);
+            initData(companyID,activity);
         }
         return typeList;
     }

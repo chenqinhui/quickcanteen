@@ -16,11 +16,11 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/top_toolbar"
-            android:background="@color/grey"
+            android:background="@color/color_background_light_pink"
             android:layout_above="@+id/payButton">
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:background="@color/grey"
+                      android:background="@color/color_background_light_pink"
                       android:orientation="vertical"
                       >
             <TextView
@@ -136,7 +136,7 @@
                     android:layout_height="match_parent" android:layout_weight="1" android:id="@+id/serviceType">
                 <TextView
                         android:padding="10dp"
-                        android:background="@color/divider_gray"
+                        android:background="@color/color_background_light_pink"
                         android:text="取餐方式"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/chooseType"
@@ -176,7 +176,7 @@
             </LinearLayout>
             <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="10dp" app:srcCompat="@color/color_divider_line"
+                    android:layout_height="10dp" app:srcCompat="@color/color_background_light_pink"
                     android:id="@+id/space" android:layout_weight="0.6"/>
         </LinearLayout>
     </ScrollView>
