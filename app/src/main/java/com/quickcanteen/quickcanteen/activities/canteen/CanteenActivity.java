@@ -1,13 +1,13 @@
 package com.quickcanteen.quickcanteen.activities.canteen;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.os.Handler;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.*;
@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CanteenActivity extends BaseActivity implements View.OnClickListener {
-
     private ViewGroup anim_mask_layout;
     private RelativeLayout main;
     private RecyclerView rvType, rvSelected;
@@ -49,7 +48,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
     private View dishesIntroductionView;
     private ProgressBar shoppingProgressBar;
 
-    private double startPrice = 99.99;
+    private double startPrice = 20.00;
 
     private ArrayList<GoodsItem> dataList, typeList, orderList;
 
@@ -70,23 +69,17 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_canteen);
         setContentView(R.layout.activity_shopping_cart);
         numberFormat = NumberFormat.getCurrencyInstance();
         numberFormat.setMaximumFractionDigits(2);
 
         Bundle bundle = this.getIntent().getExtras();
 
-        try {
-            OrderBean orderBean = (OrderBean) bundle.getSerializable("orderBean");
-            dishesList = GoodsItem.getGoodsItemList(orderBean.getDishesList());
-            isAddCart = true;
-        } catch (Exception e) {
-            isAddCart = false;
-            companyID = bundle.getInt("companyID");
-        }
-        companyID = 1;
-        BaseActivity.initializeTop(this, true, bundle.getString("companyName"));
+
+        isAddCart = false;
+        companyID = bundle.getInt("companyId");
+
+        //BaseActivity.setToolBarTitleText(bundle.getString("companyName"));
         mHanlder = new Handler(getMainLooper());
 
         main = (RelativeLayout) findViewById(R.id.main);
@@ -108,8 +101,8 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void run() {
             try {
-                dataList = GoodsItem.getGoodsList(companyID);
-                typeList = GoodsItem.getTypeList(companyID);
+                dataList = GoodsItem.getGoodsList(companyID,CanteenActivity.this);
+                typeList = GoodsItem.getTypeList(companyID,CanteenActivity.this);
             } catch (Exception e) {
                 Toast.makeText(CanteenActivity.this, "失败", Toast.LENGTH_SHORT).show();
                 //dialog.setMessage("失败");
@@ -128,6 +121,8 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+
+
     @Override
     protected void initView() {
         rvType = (RecyclerView) findViewById(R.id.typeRecyclerView);
@@ -144,7 +139,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         tvSubmit = (TextView) findViewById(R.id.tvSubmit);
 
         rvType.setLayoutManager(new LinearLayoutManager(this));
-        typeAdapter = new TypeAdapter(this, typeList);
+        typeAdapter = new TypeAdapter(this,typeList);
         rvType.setAdapter(typeAdapter);
         rvType.addItemDecoration(new DividerDecoration(this));
 
@@ -169,7 +164,6 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         });
 
     }
-
 
     public void playAnimation(int[] start_location) {
         ImageView img = new ImageView(this);
@@ -302,11 +296,11 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
             tvAdd = (TextView) dishesIntroductionView.findViewById(R.id.tvAdd);
             ratingBar = (RatingBar) dishesIntroductionView.findViewById(R.id.dishesRating);
             dishesImage = (ImageView) dishesIntroductionView.findViewById(R.id.dishesImg);
-            successToolBar = (Toolbar) dishesIntroductionView.findViewById(R.id.successToolBar);
+            //successToolBar = (Toolbar) dishesIntroductionView.findViewById(R.id.successToolBar);
             setSupportActionBar(successToolBar);
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            //successToolBar.setNavigationIcon(R.drawable.return_img);
+            successToolBar.setNavigationIcon(R.drawable.return_img);
             successToolBar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -314,7 +308,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
                     main.removeView(dishesIntroductionView);
                 }
             });
-            successToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            /*successToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     String msg = "";
@@ -337,11 +331,11 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
                     }
 
                     if (!msg.equals("")) {
-                        Toast.makeText(CanteenActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MenuActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 }
-            });
+            });*/
 
             tvMinus.setOnClickListener(this);
             tvAdd.setOnClickListener(this);
@@ -477,7 +471,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         rvSelected = (RecyclerView) view.findViewById(R.id.selectRecyclerView);
         rvSelected.setLayoutManager(new LinearLayoutManager(this));
         TextView clear = (TextView) view.findViewById(R.id.clear);
-        clear.setOnClickListener(this);
+        clear.setOnClickListener((View.OnClickListener) this);
         selectAdapter = new SelectAdapter(this, selectedList);
         rvSelected.setAdapter(selectAdapter);
         return view;
@@ -498,7 +492,6 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
 
     //添加商品
     public void add(GoodsItem item, boolean refreshGoodList) {
-
         int groupCount = groupSelect.get(item.typeId);
         if (groupCount == 0) {
             groupSelect.append(item.typeId, 1);
@@ -529,7 +522,6 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
 
     //移除商品
     public void remove(GoodsItem item, boolean refreshGoodList) {
-
         int groupCount = groupSelect.get(item.typeId);
         if (groupCount == 1) {
             groupSelect.delete(item.typeId);

@@ -1,8 +1,13 @@
 package com.quickcanteen.quickcanteen.bean;
 
 import com.quickcanteen.quickcanteen.utils.BaseJson;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -12,12 +17,14 @@ import org.json.JSONObject;
 public class CompanyInfoBean implements java.io.Serializable, JsonBean<CompanyInfoBean> {
 
     // Fields
-
     private Integer companyId;
-    private String companyName;
     private String accountNumber;
+    private String companyName;
+    private Double rating;
+    private Integer busyDegree;
     private Long startTime;
     private Long endTime;
+
 
     // Constructors
 
@@ -34,6 +41,8 @@ public class CompanyInfoBean implements java.io.Serializable, JsonBean<CompanyIn
         this.accountNumber = jsonObject.getString("accountNumber");
         this.startTime = jsonObject.getLong("startTime");
         this.endTime = jsonObject.getLong("endTime");
+        this.busyDegree=jsonObject.getInt("busyDegree");
+        this.rating=jsonObject.getDouble("rating");
     }
 
     @Override
@@ -88,4 +97,21 @@ public class CompanyInfoBean implements java.io.Serializable, JsonBean<CompanyIn
     public void setEndTime(Long endTime) {
         this.endTime = endTime;
     }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public Integer getBusyDegree() {
+        return busyDegree;
+    }
+
+    public void setBusyDegree(Integer busyDegree) {
+        this.busyDegree = busyDegree;
+    }
+
 }
