@@ -1,4 +1,4 @@
-package com.quickcanteen.quickcanteen.fragment.main;
+package com.quickcanteen.quickcanteen.fragment.personal;
 
 import android.content.Intent;
 import android.os.Bundle;

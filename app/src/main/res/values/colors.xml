@@ -61,6 +61,9 @@
     <color name="color_mainPage_canteenName">#696969</color>
     <color name="color_mainPage_sortName">#808080</color>
     <color name="color_mainPage_splitLine">#000000</color>
+    <color name="color_busyDegree_free">#0ecf24</color>
+    <color name="color_busyDegree_medium">#ecdf68</color>
+    <color name="color_busyDegree_crowed">#cf140e</color>
 
     <!--colors for history order page-->
     <color name="color_history_order_none_attention">#a1a1a1</color>
