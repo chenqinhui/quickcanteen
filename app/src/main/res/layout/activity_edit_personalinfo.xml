@@ -43,7 +43,7 @@
                 android:textColor="@color/color_text_black"
                 android:textColorHint="@color/color_text_hint"
                 android:layout_marginLeft="@dimen/text_left_margin"
-                android:inputType="textPassword"
+                android:inputType="phone"
                 android:ems="10"
                 android:id="@+id/correctInfo"
                 android:hint="将信息修改为"/>
