@@ -98,16 +98,16 @@ public class PersonalFragment extends Fragment {
                 BaseJson baseJson = userAction.getCurrentUserInfo();
 
                 userInfo = new UserInfoBean(baseJson.getJSONObject());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        button_set_information.setText(userInfo.getRealName());
+                        //points.setText(userInfo.getPoints().toString()+"分");
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    button_set_information.setText(userInfo.getRealName());
-                    //points.setText(userInfo.getPoints().toString()+"分");
-                }
-            });
 
         }
     }
