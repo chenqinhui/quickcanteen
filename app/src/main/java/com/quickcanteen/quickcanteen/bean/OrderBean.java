@@ -18,7 +18,7 @@ public class OrderBean implements Serializable {
     private OrderStatus orderStatus;
     private Long publishTime;
     private Long completeTime;
-    private ArrayList<DishesBean> dishesList;
+    private ArrayList<DishesBean> dishesBeanList;
 
     public OrderBean(JSONObject jsonObject) throws JSONException {
         this.orderId = jsonObject.getInt("orderId");
@@ -28,11 +28,11 @@ public class OrderBean implements Serializable {
         this.orderStatus = OrderStatus.valueOf(jsonObject.getInt("orderStatus"));
         this.publishTime = jsonObject.getLong("publishTime");
         this.completeTime = jsonObject.getLong("completeTime");
-        this.dishesList = new ArrayList<>();
+        this.dishesBeanList = new ArrayList<>();
         JSONArray jsonArray = jsonObject.getJSONArray("dishesBeanList");
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject tempJsonObject = jsonArray.getJSONObject(i);
-            dishesList.add(new DishesBean(tempJsonObject));
+            dishesBeanList.add(new DishesBean(tempJsonObject));
         }
     }
 
@@ -68,12 +68,12 @@ public class OrderBean implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public ArrayList<DishesBean> getDishesList() {
-        return dishesList;
+    public ArrayList<DishesBean> getDishesBeanList() {
+        return dishesBeanList;
     }
 
-    public void setDishesList(ArrayList<DishesBean> dishesList) {
-        this.dishesList = dishesList;
+    public void setDishesBeanList(ArrayList<DishesBean> dishesBeanList) {
+        this.dishesBeanList = dishesBeanList;
     }
 
     public OrderStatus getOrderStatus() {

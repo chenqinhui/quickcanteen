@@ -12,25 +12,25 @@ import java.util.ArrayList;
 public class TypeBean {
     private Integer typeId;
     private String typeName;
-    private ArrayList<DishesBean> dishesBeans;
+    private ArrayList<DishesBean> dishesBeanList;
 
     public TypeBean(JSONObject jsonObject) throws JSONException {
         this.typeId = jsonObject.getInt("typeId");
         this.typeName = jsonObject.getString("typeName");
-        this.dishesBeans = new ArrayList<>();
-        JSONArray jsonArray = jsonObject.getJSONArray("dishesBeans");
+        this.dishesBeanList = new ArrayList<>();
+        JSONArray jsonArray = jsonObject.getJSONArray("dishesBeanList");
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject tempJsonObject = jsonArray.getJSONObject(i);
-            dishesBeans.add(new DishesBean(tempJsonObject));
+            dishesBeanList.add(new DishesBean(tempJsonObject));
         }
     }
 
-    public ArrayList<DishesBean> getDishesBeans() {
-        return dishesBeans;
+    public ArrayList<DishesBean> getDishesBeanList() {
+        return dishesBeanList;
     }
 
-    public void setDishesBeans(ArrayList<DishesBean> dishesBeans) {
-        this.dishesBeans = dishesBeans;
+    public void setDishesBeanList(ArrayList<DishesBean> dishesBeanList) {
+        this.dishesBeanList = dishesBeanList;
     }
 
     public Integer getTypeId() {
