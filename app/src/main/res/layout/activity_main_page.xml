@@ -54,16 +54,9 @@
                         android:layout_marginLeft="10dp"
                         app:srcCompat="@color/color_divider_line"
                         android:id="@+id/line3"/>
-                <HorizontalScrollView
+                <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:background="@color/color_background_white"
-                            android:layout_height="wrap_content" android:id="@+id/RecommendLayout">
-                    </LinearLayout>
-                </HorizontalScrollView>
+                        android:layout_height="match_parent" android:id="@+id/recommendList"/>
             </LinearLayout>
             <Space
                     android:layout_width="match_parent"

@@ -11,4 +11,5 @@ import java.io.IOException;
  */
 public interface IMainAction extends IBaseAction{
     BaseJson getCompanyInfoByPage(int pageNumber, int pageSize) throws IOException,JSONException;
+    BaseJson getRecommendListByUserId() throws IOException,JSONException;
 }
