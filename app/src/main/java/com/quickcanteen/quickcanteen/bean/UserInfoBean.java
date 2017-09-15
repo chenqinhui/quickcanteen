@@ -39,8 +39,9 @@ public class UserInfoBean implements java.io.Serializable, JsonBean<UserInfoBean
 
     /**
      * default constructor
+     * @param currentUserInfo
      */
-    public UserInfoBean() {
+    public UserInfoBean(BaseJson currentUserInfo) {
     }
 
 
