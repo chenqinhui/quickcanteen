@@ -7,7 +7,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.quickcanteen.quickcanteen.R;
+import com.quickcanteen.quickcanteen.actions.user.IUserAction;
+import com.quickcanteen.quickcanteen.actions.user.impl.UserActionImpl;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
+import com.quickcanteen.quickcanteen.utils.BaseJson;
 
 public class EditPassword extends BaseActivity {
 
@@ -15,7 +18,7 @@ public class EditPassword extends BaseActivity {
     private Button confirmEdit;
     private Handler handler=new Handler();
     private String message;
-
+    private IUserAction userAction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,7 @@ public class EditPassword extends BaseActivity {
         newPwd=(TextView)findViewById(R.id.newPwd);
         againPwd=(TextView)findViewById(R.id.againPwd);
         confirmEdit=(Button)findViewById(R.id.confirmEdit);
+        userAction = new UserActionImpl(this);
         confirmEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,23 +41,26 @@ public class EditPassword extends BaseActivity {
                 }else if(!newPasswordString.equals(againPasswordString)){
                     Toast.makeText(EditPassword.this, "两遍密码不一致", Toast.LENGTH_SHORT).show();
                 }else{
-
+                    new Thread(new ChangePasswordThread(oldPasswordString,newPasswordString)).start();
                 }
             }
         });
     }
     class ChangePasswordThread implements Runnable{
+        private String oldPasswordString;
         private String newPasswordString;
-
-        public ChangePasswordThread(String newPasswordString) {
+        int userID = userAction.getCurrentUserID();
+        public ChangePasswordThread(String oldPasswordString,String newPasswordString) {
             this.newPasswordString = newPasswordString;
+            this.oldPasswordString = oldPasswordString;
         }
-
         @Override
         public void run() {
             message="修改成功";
             try{
-                //userInformationService.changePassword(newPasswordString);
+                BaseJson baseJson = userAction.editPassword(userID,oldPasswordString,newPasswordString);
+                message = baseJson.getErrorMessage();
+                finish();
             }catch (Exception e){
                 message="连接错误";
             }

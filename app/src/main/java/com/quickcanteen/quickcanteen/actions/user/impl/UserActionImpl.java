@@ -19,6 +19,28 @@ public class UserActionImpl extends BaseActionImpl implements IUserAction {
     }
 
     @Override
+    public BaseJson editPassword(int userID, String oldPassword, String newPassword) throws IOException, JSONException {
+        Map<String,String> map = new HashMap<>();
+        map.put("userID",String.valueOf(userID));
+        map.put("userPassword",oldPassword);
+        map.put("newPassword",newPassword);
+        String result = httpConnectByPost("user/editPassword",map);
+        return new BaseJson(result);
+    }
+
+
+    @Override
+    public BaseJson editUserInfo(String password, int userID,String infoType, String correctInfo) throws IOException, JSONException {
+        Map<String,String> map = new HashMap<>();
+        map.put("userID",String.valueOf(userID));
+        map.put("userPassword",password);
+        map.put("infoType",infoType);
+        map.put("correctInfo",correctInfo);
+        String result = httpConnectByPost("user/editUserInfo",map);
+        return new BaseJson(result);
+    }
+
+    @Override
     public BaseJson login(String accountNumber, String userPassword) throws IOException, JSONException {
         Map<String, String> map = new HashMap<>();
         map.put("accountNumber", accountNumber);

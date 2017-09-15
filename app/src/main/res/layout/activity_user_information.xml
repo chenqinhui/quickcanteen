@@ -179,7 +179,7 @@
             <TextView
                     android:text="Telephone"
                     android:textSize="@dimen/text_size_primary"
-                    android:textColor="@color/color_text_gray"
+                    android:textColor="@color/blue"
                     android:gravity="right"
                     android:paddingLeft="@dimen/text_left_margin"
                     android:paddingTop="@dimen/text_top_margin"

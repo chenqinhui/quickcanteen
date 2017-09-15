@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_edit_password"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:background="@color/color_background_light_pink"
+        tools:context="com.quickcanteen.activity.userinformation.EditUserInfo">
+    <include layout="@layout/top_toolbar"
+             android:id="@+id/top_toolbar"/>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_background_white"
+            android:layout_below="@id/top_toolbar"
+            android:layout_marginTop="@dimen/text_top_margin"
+            android:id="@+id/editUserInfo">
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_primary"
+                android:textColor="@color/color_text_black"
+                android:textColorHint="@color/color_text_hint"
+                android:layout_marginLeft="@dimen/text_left_margin"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/checkPassword"
+                android:hint="请输入密码"/>
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" app:srcCompat="@color/color_divider_line" android:id="@+id/line"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_primary"
+                android:textColor="@color/color_text_black"
+                android:textColorHint="@color/color_text_hint"
+                android:layout_marginLeft="@dimen/text_left_margin"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/correctInfo"
+                android:hint="将信息修改为"/>
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" app:srcCompat="@color/color_divider_line" android:id="@+id/line"/>
+    </LinearLayout>
+    <Button
+            android:text="确认修改"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/color_background_white"
+            android:id="@+id/confirmEditInfo" android:backgroundTint="@color/colorPrimary"
+            android:layout_marginLeft="@dimen/text_left_margin" android:layout_marginRight="@dimen/text_left_margin"
+            android:layout_below="@+id/editUserInfo" android:layout_alignParentStart="true"/>
+</RelativeLayout>
