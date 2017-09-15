@@ -123,6 +123,7 @@ public class CompleteActivity extends BaseActivity {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("OrderBean", orders);
+        bundle.putInt("companyId",orders.getCompanyId());
         intent.putExtras(bundle);
         intent.setClass(this, CanteenActivity.class);
         startActivity(intent);
