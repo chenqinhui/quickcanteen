@@ -192,6 +192,7 @@ public class MainFragment extends Fragment {
                         Toast.makeText(getActivity(), "连接错误", Toast.LENGTH_SHORT).show();
                     }
                 });
+
                 return;
             }
             handler.post(new Runnable() {
