@@ -101,6 +101,7 @@ public class CanteenListAdapter extends RecyclerView.Adapter<CanteenListAdapter.
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("companyId",companyInfoBean.getCompanyId());
+        bundle.putSerializable("companyName",companyInfoBean.getCompanyName());
         intent.putExtras(bundle);
         intent.setClass(activity, CanteenActivity.class);
         startActivity(intent);
