@@ -79,14 +79,14 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         isAddCart = false;
         companyID = bundle.getInt("companyId");
         try {
-            OrderBean orderBean = (OrderBean) bundle.getSerializable("OrderBean");
+            OrderBean orderBean = (OrderBean) bundle.getSerializable("orderBean");
             dishesList = GoodsItem.getGoodsItemList(orderBean.getDishesBeanList());
             isAddCart = true;
         } catch (Exception e) {
             isAddCart = false;
             companyID = bundle.getInt("companyId");
         }
-        //BaseActivity.initializeTop(this,true,bundle.getString("companyName"));
+        BaseActivity.initializeTop(this,true,bundle.getString("companyName"));
         mHanlder = new Handler(getMainLooper());
 
         main = (RelativeLayout) findViewById(R.id.main);
