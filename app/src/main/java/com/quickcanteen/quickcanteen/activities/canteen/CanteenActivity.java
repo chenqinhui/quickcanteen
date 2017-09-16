@@ -78,8 +78,15 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
 
         isAddCart = false;
         companyID = bundle.getInt("companyId");
-
-        //BaseActivity.setToolBarTitleText(bundle.getString("companyName"));
+        try {
+            OrderBean orderBean = (OrderBean) bundle.getSerializable("orderBean");
+            dishesList = GoodsItem.getGoodsItemList(orderBean.getDishesBeanList());
+            isAddCart = true;
+        } catch (Exception e) {
+            isAddCart = false;
+            companyID = bundle.getInt("companyId");
+        }
+        BaseActivity.initializeTop(this,true,bundle.getString("companyName"));
         mHanlder = new Handler(getMainLooper());
 
         main = (RelativeLayout) findViewById(R.id.main);
@@ -101,8 +108,8 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void run() {
             try {
-                dataList = GoodsItem.getGoodsList(companyID,CanteenActivity.this);
-                typeList = GoodsItem.getTypeList(companyID,CanteenActivity.this);
+                dataList = GoodsItem.getGoodsList(companyID, CanteenActivity.this);
+                typeList = GoodsItem.getTypeList(companyID, CanteenActivity.this);
             } catch (Exception e) {
                 Toast.makeText(CanteenActivity.this, "失败", Toast.LENGTH_SHORT).show();
                 //dialog.setMessage("失败");
@@ -122,7 +129,6 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-
     @Override
     protected void initView() {
         rvType = (RecyclerView) findViewById(R.id.typeRecyclerView);
@@ -139,7 +145,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         tvSubmit = (TextView) findViewById(R.id.tvSubmit);
 
         rvType.setLayoutManager(new LinearLayoutManager(this));
-        typeAdapter = new TypeAdapter(this,typeList);
+        typeAdapter = new TypeAdapter(this, typeList);
         rvType.setAdapter(typeAdapter);
         rvType.addItemDecoration(new DividerDecoration(this));
 
@@ -515,7 +521,9 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
             if (temp == null) {
                 Toast.makeText(CanteenActivity.this, dishes.name + "暂时不能点", Toast.LENGTH_SHORT).show();
             } else {
-                add(temp, true);
+                for(int i=0;i<dishes.count;i++) {
+                    add(temp, true);
+                }
             }
         }
     }

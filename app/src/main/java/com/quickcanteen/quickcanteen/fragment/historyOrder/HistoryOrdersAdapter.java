@@ -216,6 +216,8 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("orderBean", orderBean);
+        bundle.putInt("companyId",orderBean.getCompanyId());
+        bundle.putSerializable("companyName",orderBean.getCompanyName());
         intent.putExtras(bundle);
         intent.setClass(getActivity(), CanteenActivity.class);
         startActivity(intent);
