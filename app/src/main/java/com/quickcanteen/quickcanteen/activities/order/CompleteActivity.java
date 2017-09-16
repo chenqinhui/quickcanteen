@@ -122,7 +122,9 @@ public class CompleteActivity extends BaseActivity {
     public void toAddCart() {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("OrderBean", orders);
+        bundle.putSerializable("orderBean", orders);
+        bundle.putInt("companyId",orders.getCompanyId());
+        bundle.putSerializable("companyName",orders.getCompanyName());
         intent.putExtras(bundle);
         intent.setClass(this, CanteenActivity.class);
         startActivity(intent);

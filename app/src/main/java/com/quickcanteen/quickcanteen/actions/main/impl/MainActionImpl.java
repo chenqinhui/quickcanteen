@@ -27,4 +27,12 @@ public class MainActionImpl extends BaseActionImpl implements IMainAction {
         String result = httpConnectByPost("main/getCompanyInfoByPage", map);
         return new BaseJson(result);
     }
+
+    @Override
+    public BaseJson getRecommendListByUserId() throws IOException,JSONException{
+        Map<String,String> map = new HashMap<>();
+        map.put("userId",String.valueOf(getCurrentUserID()));
+        String result = httpConnectByPost("main/getRecommendListByUserId",map);
+        return new BaseJson(result);
+    }
 }
