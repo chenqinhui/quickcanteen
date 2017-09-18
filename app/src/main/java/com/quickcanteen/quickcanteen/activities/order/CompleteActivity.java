@@ -65,7 +65,7 @@ public class CompleteActivity extends BaseActivity {
         Button button_to_comment = (Button) findViewById(R.id.commentButton);
         button_to_comment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new Thread(new CommentThread()).start();
+                toComment();
             }
         });
 
@@ -75,30 +75,6 @@ public class CompleteActivity extends BaseActivity {
                 toAddCart();
             }
         });
-    }
-
-
-    class CommentThread implements Runnable {
-        @Override
-        public void run() {
-            message = "开始评价";
-            try {
-                Intent intent = new Intent(CompleteActivity.this, CommentActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("OrderBean", orders);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
-            } catch (Exception e) {
-                message = "连接错误";
-            }
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(CompleteActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 
     private ArrayList<HashMap<String, Object>> getData(ArrayList<DishesBean> list) {
@@ -130,4 +106,12 @@ public class CompleteActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    public void toComment() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderBean", orders);
+        intent.putExtras(bundle);
+        intent.setClass(this, CommentActivity.class);
+        startActivity(intent);
+    }
 }
