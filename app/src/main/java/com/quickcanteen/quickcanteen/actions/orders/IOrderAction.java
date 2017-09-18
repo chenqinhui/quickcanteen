@@ -23,6 +23,8 @@ public interface IOrderAction {
 
     BaseJson takeMeal(int ordersID) throws IOException, JSONException;
 
+    BaseJson comment(int ordersID) throws IOException, JSONException;
+
     BaseJson pay(int orderID,String deliverWay) throws IOException, JSONException;
 
 }

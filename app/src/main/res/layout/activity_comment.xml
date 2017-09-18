@@ -5,7 +5,7 @@
         android:id="@+id/activity_comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.quickcanteen.activity.CommentActivity">
+        tools:context="com.quickcanteen.quickcanteen.activities.CommentActivity">
 
     <include layout="@layout/top_toolbar"
              android:id="@+id/top_toolbar"/>
@@ -44,40 +44,75 @@
             android:id="@+id/line1"
             android:layout_below="@+id/companyView"
             android:layout_centerHorizontal="true"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp" android:layout_weight="1"/>
     <ScrollView
             android:layout_width="354dp"
-            android:id="@+id/commentsView"
+            android:layout_height="match_parent" android:layout_marginTop="12dp"
             android:layout_below="@+id/line1" android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp" android:layout_height="380dp">
+            android:id="@+id/commentsScroll" android:layout_above="@+id/line">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="vertical" android:id="@+id/commentsList">
-            <TextView
-                    android:text="食堂评分："
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp" android:id="@+id/totalName" android:textSize="20sp"
-                    android:textColor="@color/color_text_black"/>
-            <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/totalStar" android:numStars="5"
-                    android:rating="0" android:stepSize="0.5" style="@android:style/Widget.DeviceDefault.Light.RatingBar"/>
-            <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:inputType="text"
-                    android:ems="10"
-                    android:id="@+id/totalContent" android:textSize="20sp"
-                    android:hint="食堂菜品口味如何，环境好吗？..." android:textColor="@color/color_text_black"
-            />
-            <ListView
-                    android:layout_width="fill_parent"
-                    android:id="@+id/dishesCommentsList" android:layout_height="215dp"/>
+                      android:orientation="vertical"
+                      android:layout_alignParentBottom="true" android:layout_centerHorizontal="true">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                          android:orientation="vertical" android:id="@+id/commentsList"
+                          android:layout_below="@+id/line1" android:layout_centerHorizontal="true"
+                          android:layout_marginTop="12dp">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent" android:visibility="gone"
+                        android:layout_height="wrap_content" android:id="@+id/deliverComment">
+                    <TextView
+                            android:text="配送评分："
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp" android:id="@+id/deliverName" android:textSize="20sp"
+                            android:textColor="@color/color_text_black"/>
+                    <RatingBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/deliverStar" android:numStars="5"
+                            android:rating="0" android:stepSize="0.5"/>
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:inputType="text"
+                            android:ems="10"
+                            android:id="@+id/deliverContent" android:textSize="20sp"
+                            android:hint="配送是否及时，商品是否保存完好？..." android:textColor="@color/color_text_black"
+                    />
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/companyComment">
+                    <TextView
+                            android:text="食堂评分："
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp" android:id="@+id/totalName" android:textSize="20sp"
+                            android:textColor="@color/color_text_black"/>
+                    <RatingBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/totalStar" android:numStars="5"
+                            android:rating="0" android:stepSize="0.5"/>
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:inputType="text"
+                            android:ems="10"
+                            android:id="@+id/totalContent" android:textSize="20sp"
+                            android:hint="食堂菜品口味如何，环境卫生吗？..." android:textColor="@color/color_text_black"
+                    />
+                </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:id="@+id/dishesCommentsList" android:clipChildren="false"
+                        android:scrollbars="none" android:clipToPadding="false" android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <ImageView
-            android:layout_width="354dp" android:layout_below="@+id/commentsView"
+            android:layout_width="354dp"  android:layout_above="@+id/submitButton"
             android:layout_height="1dp" app:srcCompat="@color/color_line_gray"
-            android:id="@+id/line" android:layout_centerHorizontal="true"/>
+            android:id="@+id/line" android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"/>
     <Button
             android:text="提交"
             android:layout_width="150dp" android:layout_marginBottom="12dp"
