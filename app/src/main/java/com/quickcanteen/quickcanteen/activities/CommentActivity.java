@@ -1,171 +1,195 @@
 package com.quickcanteen.quickcanteen.activities;
 
-import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.os.Handler;
+import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.text.method.HideReturnsTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.quickcanteen.quickcanteen.R;
-import com.quickcanteen.quickcanteen.activities.canteen.GoodsItem;
+import com.quickcanteen.quickcanteen.actions.comment.impl.CommentActionImpl;
+import com.quickcanteen.quickcanteen.actions.comment.ICommentAction;
+import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
+import com.quickcanteen.quickcanteen.actions.orders.impl.OrderActionImpl;
+import com.quickcanteen.quickcanteen.activities.main.MainActivity;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
+import com.quickcanteen.quickcanteen.fragment.historyOrder.HistoryOrderFragment;
+import com.quickcanteen.quickcanteen.utils.BaseJson;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class CommentActivity extends BaseActivity {
-    private ProgressBar commentProgressBar;
-    private Button button_to_submit;
-    private ListView dishesCommentsList;
-    private TextView companyNameTextView;
-    private EditText commentContents;
-    private RatingBar commentStars;
-    private static Handler handler = new Handler();
 
-    private OrderBean orderBean;
-    private int companyID;
-    private int ordersID;
-    private String companyName,message;
-    private  ArrayList<String> comments = new ArrayList();
-    private ArrayList<Float> scores = new ArrayList();
-    private ArrayList<GoodsItem> dishesList;
-    private ArrayList<HashMap<String, Object>> data;
+    private RecyclerView commentsView;
+    private TextView companyName;
+    private Button submitButton;
+    private RatingBar totalStar, dishStar;
+    private EditText totalContent, dishContent;
+    private List<String> dishesName = new LinkedList<String>();
+    private ICommentAction commentAction = new CommentActionImpl(this);
+    private IOrderAction orderAction = new OrderActionImpl(this);
+    private static Handler handler = new Handler();
+    private String message;
+    private OrderBean orders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+        initView();
+    }
 
-        companyNameTextView = (TextView) findViewById(R.id.companyName);
+    @Override
+    protected void initView() {
+        super.initView();
+        initializeTop(this,true,"评价");
+        commentsView = (RecyclerView) findViewById(R.id.dishesCommentsList);
+        companyName = (TextView) findViewById(R.id.companyName);
+        submitButton = (Button) findViewById(R.id.submitButton);
+        totalStar = (RatingBar) findViewById(R.id.totalStar);
+        totalContent = (EditText) findViewById(R.id.totalContent);
+
         Bundle bundle = this.getIntent().getExtras();
-        orderBean =(OrderBean)bundle.getSerializable("orderBean");
-        companyID = orderBean.getCompanyId();
-        dishesList = GoodsItem.getGoodsItemList(orderBean.getDishesBeanList());
+        orders = (OrderBean) bundle.getSerializable("orderBean");
+        companyName.setText(orders.getCompanyName());
 
-        //orders = (Orders) bundle.getSerializable("order");
-        ordersID = bundle.getInt("ordersID");
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        commentsView.setLayoutManager(layoutManager);
+        for (int i = 0; i < orders.getDishesBeanList().size(); i++) {
+            dishesName.add(orders.getDishesBeanList().get(i).getDishesName());
+        }
+        CommentAdapter adapter = new CommentAdapter(dishesName);
+        commentsView.setAdapter(adapter);
 
-        dishesCommentsList = (ListView)findViewById(R.id.dishesCommentsList);
-        CommentsAdapter adapter = new CommentsAdapter(this);
-        data = getData(dishesList);
-        dishesCommentsList.setAdapter(adapter);
-
-        BaseActivity.initializeTop(this, true, "评价");
-
-        commentProgressBar = (ProgressBar) findViewById(R.id.commentProgressBar);
-        commentProgressBar.setVisibility(0);
-        commentProgressBar.setIndeterminate(false);
-
-        button_to_submit=(Button)findViewById(R.id.submitButton);
-        button_to_submit.setOnClickListener(new View.OnClickListener() {
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-
-                commentContents = (EditText)findViewById(R.id.totalContent);
-                if( commentContents.getText().toString()!=null)
-                    comments.add(commentContents.getText().toString());
-                else
-                    comments.add("");
-                commentStars = (RatingBar)findViewById(R.id.totalStar);
-                scores.add(commentStars.getRating());
-                for(int i = 0; i < dishesCommentsList.getChildCount(); i++) {
-                    commentContents = (EditText)findViewById(R.id.dishContent);
-
-                    if( commentContents.getText().toString()!=null)
-                        comments.add(commentContents.getText().toString());
-                    else
-                        comments.add("");
-                    commentStars = (RatingBar)findViewById(R.id.dishStar);
-                    scores.add(commentStars.getRating());
-                }
-
-                finish();
-
+                new Thread(new submitThread()).start();
             }
         });
-        companyName= orderBean.getCompanyName();
-        companyNameTextView.setText(companyName);
-        data = getData(dishesList);
-        commentProgressBar.setVisibility(View.GONE);
-
     }
 
-
-    private ArrayList<HashMap<String, Object>> getData(ArrayList<GoodsItem> list) {
-        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
-        for (GoodsItem temp : list) {
-            arrayList.add(getElement(temp));
-        }
-        return arrayList;
-    }
-
-    private HashMap<String, Object> getElement(GoodsItem goodsItem) {
-        HashMap<String, Object> tempHashMap = new HashMap<String, Object>();
-        tempHashMap.put("name", goodsItem.name);
-        return tempHashMap;
-    }
-
-    static class ViewHolder {
-        public ImageView img;
-        public TextView dish;
-        public RatingBar stars;
-        public EditText comment;
-    }
-
-    public class CommentsAdapter extends BaseAdapter {
-        private LayoutInflater mInflater = null;
-        private Context context;
-
-        public CommentsAdapter(Context context)
-        {
-            this.mInflater = LayoutInflater.from(context);
-        }
-
+    public class submitThread implements Runnable {
         @Override
-        public int getCount() {
-            // How many items are in the data set represented by this Adapter.(在此适配器中所代表的数据集中的条目数)
-            return data.size();
-        }
+        public void run() {
+            message = "提交成功";
+            try {
+                int hasComment = 1;
 
-        @Override
-        public Object getItem(int position) {
-            // Get the data item associated with the specified position in the data set.(获取数据集中与指定索引对应的数据项)
-            return data.get(position);
-        }
+                double totalRating = totalStar.getRating();
+                String totalComment = totalContent.getText().toString();
+                if (totalRating == 0)
+                    hasComment = 0;
 
-        @Override
-        public long getItemId(int position) {
-            // Get the row id associated with the specified position in the list.(取在列表中与指定索引对应的行id)
-            return position;
-        }
+                double dishesRating;
+                String dishesComment;
+                View mView;
+                LinearLayout mLayout;
+                for (int i = 0; i < commentsView.getChildCount(); i++) {
+                    mView = commentsView.getChildAt(i);
+                    mLayout = (LinearLayout) mView;
+                    dishStar = (RatingBar) mLayout.findViewById(R.id.dishStar);
+                    dishesRating = dishStar.getRating();
+                    if (dishesRating == 0) {
+                        hasComment = 0;
+                        break;
+                    }
+                }
+                if (hasComment == 1) {
+                    BaseJson postComJson = commentAction.postComment(orders.getCompanyId(), totalComment, totalRating, 1);
+                    switch (postComJson.getReturnCode()) {
+                        case "9.0":
+                            break;
+                        default:
+                            message = postComJson.getErrorMessage();
+                            break;
+                    }
+                    Log.d("ReturnCode", postComJson.getReturnCode());
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // Get a View that displays the data at the specified position in the data set.
-            ViewHolder holder = null;
-            //如果缓存convertView为空，则需要创建View
-            if(convertView == null) {
-                holder = new ViewHolder();
-                //根据自定义的Item布局加载布局
-                convertView = mInflater.inflate(R.layout.dishes_comment_list_content,null);
-                holder.img = (ImageView)convertView.findViewById(R.id.dishLogo);
-                holder.dish = (TextView)convertView.findViewById(R.id.dishName);
-                holder.stars = (RatingBar)convertView.findViewById(R.id.dishStar);
-                holder.comment = (EditText)convertView.findViewById(R.id.dishContent);
+                    BaseJson postDishJson;
+                    for (int i = 0; i < commentsView.getChildCount(); i++) {
+                        mView = commentsView.getChildAt(i);
+                        mLayout = (LinearLayout) mView;
+                        dishStar = (RatingBar) mLayout.findViewById(R.id.dishStar);
+                        dishesRating = dishStar.getRating();
+                        dishContent = (EditText) mLayout.findViewById(R.id.dishContent);
+                        dishesComment = dishContent.getText().toString();
+                        postDishJson = commentAction.postComment(orders.getDishesBeanList().get(i).getDishesId(), dishesComment, dishesRating, 0);
+                        switch (postDishJson.getReturnCode()) {
+                            case "9.0":
+                                break;
+                            default:
+                                message = postDishJson.getErrorMessage();
+                                break;
+                        }
+                        Log.d("ReturnCode", postComJson.getReturnCode());
+                    }
+                    BaseJson commentJson = orderAction.comment(orders.getOrderId());
 
-                //将设置好的布局保存到缓存中，并将其设置在Tag里，以便后面方便取出Tag
-                convertView.setTag(holder);
-            }else {
-                holder = (ViewHolder) convertView.getTag();
+                    Intent intent = new Intent();
+                    intent.setClass(CommentActivity.this, MainActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    message = "评星不能为0";
+                }
+
+            } catch (Exception e) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        message = "连接错误";
+                    }
+                });
+                return;
             }
-            holder.img = (ImageView)convertView.findViewById(R.id.dishLogo);
-            holder.dish .setText(data.get(position).get("name").toString());
-            holder.stars = (RatingBar)convertView.findViewById(R.id.dishStar);
-            holder.comment = (EditText)convertView.findViewById(R.id.dishContent);
-
-            return convertView;
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(CommentActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
-
     }
 
+    public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
+        private List<String> mDishesName;
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            TextView dishName;
+
+            public ViewHolder(View view) {
+                super(view);
+                dishName = (TextView) view.findViewById(R.id.dishName);
+            }
+        }
+
+        public CommentAdapter(List<String> dishesName) {
+            mDishesName = dishesName;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dishes_comment_list_content, parent, false);
+            ViewHolder holder = new ViewHolder(view);
+            return holder;
+
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            String dish = mDishesName.get(position);
+            holder.dishName.setText(dish);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDishesName.size();
+        }
+    }
 }

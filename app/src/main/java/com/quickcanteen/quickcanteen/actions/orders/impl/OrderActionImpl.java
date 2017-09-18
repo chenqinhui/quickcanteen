@@ -73,6 +73,11 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
     }
 
     @Override
+    public BaseJson comment(int ordersID) throws IOException, JSONException {
+        return updateOrderState(ordersID, OrderStatus.COMPLETE);
+    }
+
+    @Override
     public BaseJson takeMeal(int ordersID) throws IOException, JSONException {
         return updateOrderState(ordersID, OrderStatus.NOT_COMMENT);
     }
