@@ -62,19 +62,74 @@ public class CompleteActivity extends BaseActivity {
 
         BaseActivity.initializeTop(this, true, "确认取餐");
 
-        Button button_to_comment = (Button) findViewById(R.id.commentButton);
-        button_to_comment.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                toComment();
-            }
-        });
+        Button button1 = (Button) findViewById(R.id.commentButton);
+        Button button2 = (Button) findViewById(R.id.moreButton);
 
-        Button button_to_order = (Button) findViewById(R.id.moreButton);
-        button_to_order.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                toAddCart();
-            }
-        });
+        switch (orders.getOrderStatus()){
+            case NEW:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.GONE);
+                break;
+            case NOT_PAID:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("去支付");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toPay();
+                    }
+                });
+                break;
+            case NOT_COMMENT:
+                button1.setVisibility(View.VISIBLE);
+                button1.setText("评价");
+                button1.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toComment();
+                    }
+                });
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("再来一单");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toAddCart();
+                    }
+                });
+                break;
+            case PREPARING:
+            case DISTRIBUTING:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.GONE);
+                break;
+            case PEND_TO_TAKE:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("确认取餐");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toTakeMeal();
+                    }
+                });
+                break;
+            case COMPLETE:
+            case CLOSED:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("再来一单");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toAddCart();
+                    }
+                });
+                break;
+            case CANCELLED:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
+
     }
 
     private ArrayList<HashMap<String, Object>> getData(ArrayList<DishesBean> list) {
@@ -114,4 +169,24 @@ public class CompleteActivity extends BaseActivity {
         intent.setClass(this, CommentActivity.class);
         startActivity(intent);
     }
+
+    public void toPay() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderBean", orders);
+        intent.putExtras(bundle);
+        intent.setClass(this, OrderActivity.class);
+        startActivity(intent);
+    }
+
+    public void toTakeMeal() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderBean", orders);
+        intent.putExtras(bundle);
+        intent.setClass(this, SuccessActivity.class);
+        startActivity(intent);
+    }
+
+
 }
