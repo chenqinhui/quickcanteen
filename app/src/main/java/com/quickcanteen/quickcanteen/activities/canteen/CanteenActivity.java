@@ -86,6 +86,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
             isAddCart = false;
             companyID = bundle.getInt("companyId");
         }
+
         BaseActivity.initializeTop(this,true,bundle.getString("companyName"));
         mHanlder = new Handler(getMainLooper());
 
