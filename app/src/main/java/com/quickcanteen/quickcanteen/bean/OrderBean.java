@@ -19,6 +19,7 @@ public class OrderBean implements Serializable {
     private Long publishTime;
     private Long completeTime;
     private ArrayList<DishesBean> dishesBeanList;
+    private String timeSlot;
 
     public OrderBean(JSONObject jsonObject) throws JSONException {
         this.orderId = jsonObject.getInt("orderId");
@@ -29,6 +30,7 @@ public class OrderBean implements Serializable {
         this.publishTime = jsonObject.getLong("publishTime");
         this.completeTime = jsonObject.getLong("completeTime");
         this.dishesBeanList = new ArrayList<>();
+        this.timeSlot = jsonObject.getString("timeslotId");
         JSONArray jsonArray = jsonObject.getJSONArray("dishesBeanList");
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject tempJsonObject = jsonArray.getJSONObject(i);
@@ -98,5 +100,13 @@ public class OrderBean implements Serializable {
 
     public void setCompleteTime(Long completeTime) {
         this.completeTime = completeTime;
+    }
+
+    public String getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(String timeSlot) {
+        this.timeSlot = timeSlot;
     }
 }

@@ -155,7 +155,8 @@
                     <RadioButton
                             android:text="配送"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" android:id="@+id/distribution" android:layout_weight="1"
+                            android:layout_height="wrap_content" android:id="@+id/distribution"
+                            android:layout_weight="1"
                             android:textSize="18sp"/>
                 </RadioGroup>
                 <TextView

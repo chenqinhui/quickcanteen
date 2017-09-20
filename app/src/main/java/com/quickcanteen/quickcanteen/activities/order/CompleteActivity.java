@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 import com.quickcanteen.quickcanteen.R;
+import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
 import com.quickcanteen.quickcanteen.activities.CommentActivity;
 import com.quickcanteen.quickcanteen.activities.canteen.CanteenActivity;
@@ -14,7 +15,9 @@ import com.quickcanteen.quickcanteen.bean.DishesBean;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,7 +32,7 @@ public class CompleteActivity extends BaseActivity {
     private static Handler handler = new Handler();
     private String message;
     private OrderBean orders;
-
+    private IOrderAction orderAction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +48,10 @@ public class CompleteActivity extends BaseActivity {
 
         Bundle bundle = this.getIntent().getExtras();
         orders = (OrderBean) bundle.getSerializable("orderBean");
-
         companyNameTextView.setText(orders.getCompanyName());
-
-        orderTimeTextView.setText(new Timestamp(orders.getPublishTime()).toString());
-        pickTimeTextView.setText(new Timestamp(orders.getCompleteTime()).toString());
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        orderTimeTextView.setText(sdf.format(orders.getPublishTime()).toString());
+        pickTimeTextView.setText(sdf.format(orders.getCompleteTime()).toString());
 
         ListView dishesView = (ListView) findViewById(R.id.dishesView);
         SimpleAdapter adapter = new SimpleAdapter(this, getData(orders.getDishesBeanList()), R.layout.dishes_view_content,

@@ -25,4 +25,9 @@ public interface IOrderAction {
 
     BaseJson pay(int orderID,String deliverWay) throws IOException, JSONException;
 
+    BaseJson updateTimeSlot(int orderID,String timeSlot) throws  IOException,JSONException;
+
+    BaseJson updateFinishTime(int orderID) throws IOException,JSONException;
+
+    BaseJson updateStartTime(int orderID) throws IOException,JSONException;
 }
