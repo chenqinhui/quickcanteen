@@ -12,7 +12,8 @@
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_below="@+id/top_toolbar">
+            android:layout_height="match_parent" android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="vertical">
             <ImageView
@@ -57,8 +58,10 @@
                     android:layout_height="match_parent">
                 <TextView
                         android:layout_width="match_parent" android:textColor="@color/color_text_black"
-                        android:id="@+id/successTip" android:layout_below="@+id/successHint" android:layout_alignLeft="@+id/successHint"
-                        android:layout_alignStart="@+id/successHint" android:textSize="20sp" android:textAlignment="center"
+                        android:id="@+id/successTip" android:layout_below="@+id/successHint"
+                        android:layout_alignLeft="@+id/successHint"
+                        android:layout_alignStart="@+id/successHint" android:textSize="20sp"
+                        android:textAlignment="center"
                         android:text="请您于今日" android:layout_height="35dp"/>
                 <LinearLayout
                         android:orientation="horizontal"
@@ -76,7 +79,8 @@
                     <TextView
                             android:text="凭订单号到窗取餐，"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/successTips2" android:layout_weight="1"
+                            android:layout_height="wrap_content" android:id="@+id/successTips2"
+                            android:layout_weight="1"
                             android:textSize="20sp" android:textColor="@color/color_text_black"/>
                 </LinearLayout>
                 <TextView

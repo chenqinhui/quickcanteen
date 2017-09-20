@@ -9,10 +9,7 @@ import com.quickcanteen.quickcanteen.utils.BaseJson;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.quickcanteen.quickcanteen.utils.StringUtils.join;
 
@@ -91,6 +88,29 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
         return new BaseJson(result);
     }
 
+    public BaseJson updateTimeSlot(int ordersID, String timeSlot) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("orderId", String.valueOf(ordersID));
+        map.put("timeSlot", timeSlot);
+        String result = httpConnectByPost("order/updateTimeSlot", map);
+        return new BaseJson(result);
+    }
+
+    @Override
+    public BaseJson updateFinishTime(int orderID) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("orderId", String.valueOf(orderID));
+        String result = httpConnectByPost("order/updateFinishTime", map);
+        return new BaseJson(result);
+    }
+
+    @Override
+    public BaseJson updateStartTime(int orderID) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("orderId", String.valueOf(orderID));
+        String result = httpConnectByPost("order/updateStartTime", map);
+        return new BaseJson(result);
+    }
     @Override
     public BaseJson pay(int orderID, String deliverWay) throws IOException, JSONException {
         switch (deliverWay) {
