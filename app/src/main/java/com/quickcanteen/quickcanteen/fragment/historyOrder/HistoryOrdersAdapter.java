@@ -75,12 +75,13 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
                 break;
             case NOT_COMMENT:
                 holder.assessOrder.setVisibility(View.VISIBLE);
+                holder.assessOrder.setText("评价");
                 holder.addOrder.setVisibility(View.VISIBLE);
                 holder.addOrder.setText("再来一单");
                 holder.assessOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        toAssess(orderBean);
+                        toComment(orderBean);
                     }
                 });
                 holder.addOrder.setOnClickListener(new View.OnClickListener() {
@@ -220,6 +221,15 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
         bundle.putSerializable("companyName",orderBean.getCompanyName());
         intent.putExtras(bundle);
         intent.setClass(getActivity(), CanteenActivity.class);
+        startActivity(intent);
+    }
+
+    public void toComment(OrderBean orderBean) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderBean", orderBean);
+        intent.putExtras(bundle);
+        intent.setClass(getActivity(), CommentActivity.class);
         startActivity(intent);
     }
 

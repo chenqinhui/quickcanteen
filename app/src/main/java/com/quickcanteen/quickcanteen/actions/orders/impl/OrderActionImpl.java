@@ -73,6 +73,11 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
     }
 
     @Override
+    public BaseJson comment(int ordersID) throws IOException, JSONException {
+        return updateOrderState(ordersID, OrderStatus.COMPLETE);
+    }
+
+    @Override
     public BaseJson takeMeal(int ordersID) throws IOException, JSONException {
         return updateOrderState(ordersID, OrderStatus.NOT_COMMENT);
     }
@@ -80,8 +85,8 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
 
     protected BaseJson updateOrderState(int ordersID, OrderStatus orderStatus) throws IOException, JSONException {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("ordersID", String.valueOf(ordersID));
-        map.put("orderState", String.valueOf(orderStatus.getValue()));
+        map.put("orderId", String.valueOf(ordersID));
+        map.put("orderStatus", String.valueOf(orderStatus.getValue()));
         String result = httpConnectByPost("order/updateOrderState", map);
         return new BaseJson(result);
     }
