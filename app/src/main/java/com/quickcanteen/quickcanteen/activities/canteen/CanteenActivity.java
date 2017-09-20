@@ -79,7 +79,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         isAddCart = false;
         companyID = bundle.getInt("companyId");
         try {
-            OrderBean orderBean = (OrderBean) bundle.getSerializable("orderBean");
+            OrderBean orderBean = (OrderBean) bundle.getSerializable("OrderBean");
             dishesList = GoodsItem.getGoodsItemList(orderBean.getDishesBeanList());
             isAddCart = true;
         } catch (Exception e) {
