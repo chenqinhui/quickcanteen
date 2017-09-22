@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 import com.quickcanteen.quickcanteen.R;
+import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
 import com.quickcanteen.quickcanteen.activities.CommentActivity;
 import com.quickcanteen.quickcanteen.activities.canteen.CanteenActivity;
@@ -14,7 +15,9 @@ import com.quickcanteen.quickcanteen.bean.DishesBean;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,7 +32,7 @@ public class CompleteActivity extends BaseActivity {
     private static Handler handler = new Handler();
     private String message;
     private OrderBean orders;
-
+    private IOrderAction orderAction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +48,10 @@ public class CompleteActivity extends BaseActivity {
 
         Bundle bundle = this.getIntent().getExtras();
         orders = (OrderBean) bundle.getSerializable("orderBean");
-
         companyNameTextView.setText(orders.getCompanyName());
-
-        orderTimeTextView.setText(new Timestamp(orders.getPublishTime()).toString());
-        pickTimeTextView.setText(new Timestamp(orders.getCompleteTime()).toString());
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        orderTimeTextView.setText(sdf.format(orders.getPublishTime()).toString());
+        pickTimeTextView.setText(sdf.format(orders.getCompleteTime()).toString());
 
         ListView dishesView = (ListView) findViewById(R.id.dishesView);
         SimpleAdapter adapter = new SimpleAdapter(this, getData(orders.getDishesBeanList()), R.layout.dishes_view_content,
@@ -62,43 +64,74 @@ public class CompleteActivity extends BaseActivity {
 
         BaseActivity.initializeTop(this, true, "确认取餐");
 
-        Button button_to_comment = (Button) findViewById(R.id.commentButton);
-        button_to_comment.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                new Thread(new CommentThread()).start();
-            }
-        });
+        Button button1 = (Button) findViewById(R.id.commentButton);
+        Button button2 = (Button) findViewById(R.id.moreButton);
 
-        Button button_to_order = (Button) findViewById(R.id.moreButton);
-        button_to_order.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                toAddCart();
-            }
-        });
-    }
-
-
-    class CommentThread implements Runnable {
-        @Override
-        public void run() {
-            message = "开始评价";
-            try {
-                Intent intent = new Intent(CompleteActivity.this, CommentActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("OrderBean", orders);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
-            } catch (Exception e) {
-                message = "连接错误";
-            }
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(CompleteActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
-            });
+        switch (orders.getOrderStatus()){
+            case NEW:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.GONE);
+                break;
+            case NOT_PAID:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("去支付");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toPay();
+                    }
+                });
+                break;
+            case NOT_COMMENT:
+                button1.setVisibility(View.VISIBLE);
+                button1.setText("评价");
+                button1.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toComment();
+                    }
+                });
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("再来一单");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toAddCart();
+                    }
+                });
+                break;
+            case PREPARING:
+            case DISTRIBUTING:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.GONE);
+                break;
+            case PEND_TO_TAKE:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("确认取餐");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toTakeMeal();
+                    }
+                });
+                break;
+            case COMPLETE:
+            case CLOSED:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("再来一单");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toAddCart();
+                    }
+                });
+                break;
+            case CANCELLED:
+                button1.setVisibility(View.GONE);
+                button2.setVisibility(View.GONE);
+                break;
+            default:
+                break;
         }
+
     }
 
     private ArrayList<HashMap<String, Object>> getData(ArrayList<DishesBean> list) {
@@ -122,10 +155,40 @@ public class CompleteActivity extends BaseActivity {
     public void toAddCart() {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("OrderBean", orders);
+        bundle.putSerializable("orderBean", orders);
+        bundle.putInt("companyId",orders.getCompanyId());
+        bundle.putSerializable("companyName",orders.getCompanyName());
         intent.putExtras(bundle);
         intent.setClass(this, CanteenActivity.class);
         startActivity(intent);
     }
+
+    public void toComment() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderBean", orders);
+        intent.putExtras(bundle);
+        intent.setClass(this, CommentActivity.class);
+        startActivity(intent);
+    }
+
+    public void toPay() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderBean", orders);
+        intent.putExtras(bundle);
+        intent.setClass(this, OrderActivity.class);
+        startActivity(intent);
+    }
+
+    public void toTakeMeal() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("orderBean", orders);
+        intent.putExtras(bundle);
+        intent.setClass(this, SuccessActivity.class);
+        startActivity(intent);
+    }
+
 
 }

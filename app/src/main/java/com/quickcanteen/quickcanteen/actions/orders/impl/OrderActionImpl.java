@@ -9,10 +9,7 @@ import com.quickcanteen.quickcanteen.utils.BaseJson;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.quickcanteen.quickcanteen.utils.StringUtils.join;
 
@@ -73,6 +70,11 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
     }
 
     @Override
+    public BaseJson comment(int ordersID) throws IOException, JSONException {
+        return updateOrderState(ordersID, OrderStatus.COMPLETE);
+    }
+
+    @Override
     public BaseJson takeMeal(int ordersID) throws IOException, JSONException {
         return updateOrderState(ordersID, OrderStatus.NOT_COMMENT);
     }
@@ -80,12 +82,35 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
 
     protected BaseJson updateOrderState(int ordersID, OrderStatus orderStatus) throws IOException, JSONException {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("ordersID", String.valueOf(ordersID));
-        map.put("orderState", String.valueOf(orderStatus.getValue()));
+        map.put("orderId", String.valueOf(ordersID));
+        map.put("orderStatus", String.valueOf(orderStatus.getValue()));
         String result = httpConnectByPost("order/updateOrderState", map);
         return new BaseJson(result);
     }
 
+    public BaseJson updateTimeSlot(int ordersID, String timeSlot) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("orderId", String.valueOf(ordersID));
+        map.put("timeSlot", timeSlot);
+        String result = httpConnectByPost("order/updateTimeSlot", map);
+        return new BaseJson(result);
+    }
+
+    @Override
+    public BaseJson updateFinishTime(int orderID) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("orderId", String.valueOf(orderID));
+        String result = httpConnectByPost("order/updateFinishTime", map);
+        return new BaseJson(result);
+    }
+
+    @Override
+    public BaseJson updateStartTime(int orderID) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("orderId", String.valueOf(orderID));
+        String result = httpConnectByPost("order/updateStartTime", map);
+        return new BaseJson(result);
+    }
     @Override
     public BaseJson pay(int orderID, String deliverWay) throws IOException, JSONException {
         switch (deliverWay) {

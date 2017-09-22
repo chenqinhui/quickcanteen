@@ -2,19 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
 
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="354dp"
+            android:layout_width="354dp" android:layout_centerHorizontal="true"
             android:layout_height="35dp" android:id="@+id/dishLine">
         <ImageView
                 android:layout_width="50dp"
                 android:layout_height="35dp" app:srcCompat="@drawable/dish_img" android:id="@+id/dishLogo"
                 android:layout_weight="1"/>
         <TextView
-                android:text="dish_name1"
+                android:text="dish_name"
                 android:layout_width="304dp"
                 android:layout_height="35dp" android:id="@+id/dishName" android:layout_weight="1"
                 android:textSize="20sp"
@@ -29,7 +29,7 @@
             android:layout_height="70dp"
             android:inputType="text"
             android:ems="10"
-            android:id="@+id/dishContent" android:hint="好吃吗，卫生吗？..." android:textSize="20sp"
+            android:id="@+id/dishContent" android:hint="口味如何，食材是否新鲜，分量足吗？..." android:textSize="20sp"
             android:textColor="@color/color_text_black"/>
 
 </LinearLayout>

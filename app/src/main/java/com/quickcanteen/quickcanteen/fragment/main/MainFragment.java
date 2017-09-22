@@ -15,11 +15,15 @@ import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.actions.main.IMainAction;
 import com.quickcanteen.quickcanteen.actions.main.impl.MainActionImpl;
 import com.quickcanteen.quickcanteen.activities.canteen.CanteenActivity;
+import com.quickcanteen.quickcanteen.activities.search.SearchActivity;
 import com.quickcanteen.quickcanteen.bean.CompanyInfoBean;
+import com.quickcanteen.quickcanteen.bean.DishesBean;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +40,10 @@ public class MainFragment extends Fragment {
     private IMainAction mainAction;
     private TextView noneCompanyAttention;
 
-
+    private RecyclerView recommendView;
+    private RecommendAdapter recommendAdapter;
+    private LinearLayoutManager recommendLayoutManager;
+    private List<DishesBean> recommendList = new ArrayList<>();
 
     private Spinner chooseCompany;
     private List<String> company = new ArrayList<String>();
@@ -108,39 +115,25 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                /*Bundle bundle=new Bundle();
+                Bundle bundle=new Bundle();
                 bundle.putString("searchCompany",comp);
                 bundle.putString("searchStr",message);
-                intent.putExtras(bundle);*/
+                intent.putExtras(bundle);
 
-                //intent.setClass(getActivity(), SearchPage.class);
+                intent.setClass(getActivity(), SearchActivity.class);
                 startActivity(intent);
             }
         });
 
         /*推荐菜列表*/
-        LinearLayout recommendLayout;
-        recommendLayout = (LinearLayout)getActivity().findViewById(R.id.RecommendLayout);
-        for(int i = 0;i<5;i++){
-            final View recommendView = createView();
-            recommendLayout.addView(recommendView);
-        }
+        recommendView = (RecyclerView)getActivity().findViewById(R.id.recommendList);
+        recommendLayoutManager = new LinearLayoutManager(getActivity());
+        recommendLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recommendView.setLayoutManager(recommendLayoutManager);
 
-        //button=(Button)getActivity().findViewById(R.id.button);
-        /*button.setOnClickListener(new Button.OnClickListener(){
-              @Override
-              public void onClick(View v) {
-                  Intent intent = new Intent();
-                  Bundle bundle = new Bundle();
-                  bundle.putSerializable("companyId",1);
-                  intent.putExtras(bundle);
-                  intent.setClass(getActivity(), CanteenActivity.class);
-                  startActivity(intent);
-              }
-        }
-        );
-*/
-
+        recommendAdapter = new RecommendAdapter(recommendList,getActivity());
+        recommendView.setAdapter(recommendAdapter);
+        new Thread(new RecommendThread()).start();
 
         /*餐厅列表*/
         canteenView = (RecyclerView) getActivity().findViewById(R.id.canteenList);
@@ -168,24 +161,6 @@ public class MainFragment extends Fragment {
         new Thread(new MainThread()).start();
         if(canteenList.size()!=0)
             noneCompanyAttention.setVisibility(View.GONE);
-    }
-
-    public View createView() {
-        LinearLayout linearLayout = new LinearLayout(getActivity());
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(15, 5, 15, 10);
-        linearLayout.setGravity(Gravity.CENTER);
-        ImageView imageView = new ImageView(getActivity());
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(350,350));
-        Bitmap map = BitmapFactory.decodeResource(this.getResources(), R.drawable.menu1);
-        imageView.setImageBitmap(map);
-        TextView textView = new TextView(getActivity());
-        textView.setText("炖猪蹄");
-        textView.setGravity(Gravity.CENTER);
-        linearLayout.setTag(textView.getText());
-        linearLayout.addView(imageView);
-        linearLayout.addView(textView);
-        return linearLayout;
     }
 
     public class MainThread implements Runnable {
@@ -218,12 +193,51 @@ public class MainFragment extends Fragment {
                         Toast.makeText(getActivity(), "连接错误", Toast.LENGTH_SHORT).show();
                     }
                 });
+
                 return;
             }
             handler.post(new Runnable() {
                 @Override
                 public void run() {
                     canteenAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    public class RecommendThread implements Runnable{
+        @Override
+        public void run(){
+            try{
+                BaseJson baseJson = mainAction.getRecommendListByUserId();
+                JSONArray jsonArray = baseJson.getJSONArray();
+                switch (baseJson.getReturnCode()) {
+                    case "10.0":
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject tempJsonObject = jsonArray.getJSONObject(i);
+                            DishesBean dishesBean = new DishesBean((tempJsonObject));
+                            recommendList.add(dishesBean);
+                        }
+                        break;
+                    case "10.0.E.1":
+                        baseJson.getErrorMessage();
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "连接错误", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return;
+            }
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    recommendAdapter.notifyDataSetChanged();
                 }
             });
         }
