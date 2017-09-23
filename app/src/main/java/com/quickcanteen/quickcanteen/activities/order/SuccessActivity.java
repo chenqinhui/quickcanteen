@@ -3,8 +3,10 @@ package com.quickcanteen.quickcanteen.activities.order;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.quickcanteen.quickcanteen.R;
@@ -18,14 +20,14 @@ public class SuccessActivity extends BaseActivity {
 
     private static Handler handler = new Handler();
     private int ordersID;
-
+    private LinearLayout invite;
+    private LinearLayout distribution;
     private String message;
     private int companyID;
     private TextView deadLine;
     private String time;
     private TextView orderIdText;
     private OrderBean orderBean;
-
     private IOrderAction orderAction = new OrderActionImpl(this);
 
     @Override
@@ -34,12 +36,15 @@ public class SuccessActivity extends BaseActivity {
         setContentView(R.layout.activity_success);
         BaseActivity.initializeTop(this, true, "支付成功");
         Bundle bundle = this.getIntent().getExtras();
+        //time = this.getIntent().getStringEXtra("chosenTimeSlot");
         orderBean = (OrderBean) bundle.getSerializable("orderBean");
         companyID = orderBean.getCompanyId();
         ordersID = orderBean.getOrderId();
         deadLine = (TextView) findViewById(R.id.deadline);
         orderIdText = (TextView) findViewById(R.id.orderId);
         orderIdText.setText(String.valueOf(ordersID));
+        invite = (LinearLayout)findViewById(R.id.inviteTips);
+        distribution = (LinearLayout)findViewById(R.id.distributionTips);
         Button button_to_cancel = (Button) findViewById(R.id.cancelButton);
         button_to_cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -59,6 +64,7 @@ public class SuccessActivity extends BaseActivity {
     public class MyThread implements Runnable {
         @Override
         public void run() {
+            message = "成功";
             try {
                 //companyName = orderService.getCompanyInfoByID(companyID).getRealName();
                 BaseJson baseJson = orderAction.getTimeSlotByOrdersID(ordersID);
@@ -69,6 +75,11 @@ public class SuccessActivity extends BaseActivity {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
+                    if(time.equals("null")){
+                        invite.setVisibility(View.INVISIBLE);
+                        distribution.setVisibility(View.VISIBLE);
+                    }
+                    else
                     deadLine.setText(time);
                 }
             });
@@ -81,6 +92,7 @@ public class SuccessActivity extends BaseActivity {
             message = "取消成功";
             try {
                 orderAction.unsubscribe(ordersID);
+                orderBean.setCompleteTime(Long.parseLong(orderAction.updateFinishTime(ordersID).getJSONObject().getString("completeTime"))/1000*1000);
                 Intent intent = new Intent();
                 intent.setClass(SuccessActivity.this, CancelActivity.class);
                 startActivity(intent);
@@ -103,6 +115,7 @@ public class SuccessActivity extends BaseActivity {
             message = "确认成功";
             try {
                 orderAction.takeMeal(ordersID);
+                orderBean.setCompleteTime(Long.parseLong(orderAction.updateFinishTime(ordersID).getJSONObject().getString("completeTime"))/1000*1000);
                 Intent intent = new Intent(SuccessActivity.this, CompleteActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("orderBean", orderBean);
