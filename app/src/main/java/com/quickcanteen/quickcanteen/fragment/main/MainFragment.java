@@ -15,6 +15,7 @@ import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.actions.main.IMainAction;
 import com.quickcanteen.quickcanteen.actions.main.impl.MainActionImpl;
 import com.quickcanteen.quickcanteen.activities.canteen.CanteenActivity;
+import com.quickcanteen.quickcanteen.activities.search.SearchActivity;
 import com.quickcanteen.quickcanteen.bean.CompanyInfoBean;
 import com.quickcanteen.quickcanteen.bean.DishesBean;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
@@ -114,12 +115,12 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                /*Bundle bundle=new Bundle();
+                Bundle bundle=new Bundle();
                 bundle.putString("searchCompany",comp);
                 bundle.putString("searchStr",message);
-                intent.putExtras(bundle);*/
+                intent.putExtras(bundle);
 
-                //intent.setClass(getActivity(), SearchPage.class);
+                intent.setClass(getActivity(), SearchActivity.class);
                 startActivity(intent);
             }
         });

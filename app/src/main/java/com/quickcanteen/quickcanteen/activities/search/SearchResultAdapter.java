@@ -88,7 +88,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     public void toAddCart(SearchBean searchBean) {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putInt("companyID",searchBean.getCompanyInfoBean().getCompanyId());
+        bundle.putInt("companyId",searchBean.getCompanyInfoBean().getCompanyId());
         intent.putExtras(bundle);
         intent.setClass(getActivity(), CanteenActivity.class);
         startActivity(intent);
