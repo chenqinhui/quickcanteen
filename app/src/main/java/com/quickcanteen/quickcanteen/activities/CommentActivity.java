@@ -18,7 +18,6 @@ import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
 import com.quickcanteen.quickcanteen.actions.orders.impl.OrderActionImpl;
 import com.quickcanteen.quickcanteen.activities.main.MainActivity;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
-import com.quickcanteen.quickcanteen.fragment.historyOrder.HistoryOrderFragment;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
 
 import java.util.*;
@@ -26,6 +25,7 @@ import java.util.*;
 public class CommentActivity extends BaseActivity {
 
     private RecyclerView commentsView;
+    private LinearLayoutManager layoutManager;
     private TextView companyName;
     private Button submitButton;
     private RatingBar totalStar, dishStar;
@@ -47,7 +47,7 @@ public class CommentActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        initializeTop(this,true,"评价");
+        initializeTop(this, true, "评价");
         commentsView = (RecyclerView) findViewById(R.id.dishesCommentsList);
         companyName = (TextView) findViewById(R.id.companyName);
         submitButton = (Button) findViewById(R.id.submitButton);
@@ -58,13 +58,17 @@ public class CommentActivity extends BaseActivity {
         orders = (OrderBean) bundle.getSerializable("orderBean");
         companyName.setText(orders.getCompanyName());
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         commentsView.setLayoutManager(layoutManager);
         for (int i = 0; i < orders.getDishesBeanList().size(); i++) {
             dishesName.add(orders.getDishesBeanList().get(i).getDishesName());
         }
         CommentAdapter adapter = new CommentAdapter(dishesName);
         commentsView.setAdapter(adapter);
+
+        LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) commentsView.getLayoutParams();
+        linearParams.height = dishesName.size()*500;
+        commentsView.setLayoutParams(linearParams);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +94,7 @@ public class CommentActivity extends BaseActivity {
                 String dishesComment;
                 View mView;
                 LinearLayout mLayout;
-                for (int i = 0; i < commentsView.getChildCount(); i++) {
+                for (int i = 0; i < dishesName.size(); i++) {
                     mView = commentsView.getChildAt(i);
                     mLayout = (LinearLayout) mView;
                     dishStar = (RatingBar) mLayout.findViewById(R.id.dishStar);
@@ -112,7 +116,7 @@ public class CommentActivity extends BaseActivity {
                     Log.d("ReturnCode", postComJson.getReturnCode());
 
                     BaseJson postDishJson;
-                    for (int i = 0; i < commentsView.getChildCount(); i++) {
+                    for (int i = 0; i < dishesName.size(); i++) {
                         mView = commentsView.getChildAt(i);
                         mLayout = (LinearLayout) mView;
                         dishStar = (RatingBar) mLayout.findViewById(R.id.dishStar);

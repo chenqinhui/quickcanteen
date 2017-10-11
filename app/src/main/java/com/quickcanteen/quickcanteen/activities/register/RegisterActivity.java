@@ -43,6 +43,7 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
+        initializeTop(this,true,"注册");
         sharedPreferences = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         userName = (EditText) findViewById(R.id.registerName);
         accountNumber = (EditText) findViewById(R.id.registerID);
@@ -88,14 +89,15 @@ public class RegisterActivity extends BaseActivity {
                     BaseJson baseJson = userAction.register(accountNumberString, userPasswordString, userNameString, teleNumString);
                     Log.d("ReturnCode", baseJson.getReturnCode());
                     switch (baseJson.getReturnCode()) {
-                        case "2.0":
+                        case "1.0":
                             SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
-                            editor.putInt("userID", baseJson.getSingleIntegerResult());
+                            String[] s=baseJson.getSingleStringResult().split(" ");
+                            editor.putInt("userID", Integer.parseInt(s[1]));
+                            editor.putString("X-TOKEN",s[0].trim());
                             editor.commit();
                             Intent intent = new Intent();
                             intent.setClass(RegisterActivity.this, MainActivity.class);
                             startActivity(intent);
-                            finish();
                             break;
                         default:
                             message = baseJson.getErrorMessage();
