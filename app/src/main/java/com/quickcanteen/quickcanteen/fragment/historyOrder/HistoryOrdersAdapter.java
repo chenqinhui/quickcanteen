@@ -116,11 +116,20 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
                     }
                 });
                 break;
-            case CANCELLED:
-                holder.assessOrder.setVisibility(View.GONE);
-                holder.addOrder.setVisibility(View.GONE);
-                break;
             case DISTRIBUTING:
+                holder.assessOrder.setVisibility(View.GONE);
+                holder.addOrder.setVisibility(View.VISIBLE);
+                holder.addOrder.setText("去取餐");
+                holder.addOrder.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        skip(orderBean);
+                    }
+                });
+                break;
+            case CANCELLED:
+            case PEND_TO_DISTRIBUTE:
                 holder.assessOrder.setVisibility(View.GONE);
                 holder.addOrder.setVisibility(View.GONE);
                 break;
@@ -142,6 +151,17 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
             case PREPARING:
                 holder.assessOrder.setVisibility(View.GONE);
                 holder.addOrder.setVisibility(View.GONE);
+                break;
+            case WAITING:
+                holder.assessOrder.setVisibility(View.GONE);
+                holder.addOrder.setVisibility(View.VISIBLE);
+                holder.addOrder.setText("再来一单");
+                holder.addOrder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toAddCart(orderBean);
+                    }
+                });
                 break;
             default:
                 break;
@@ -200,6 +220,7 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
                 intent.setClass(getActivity(), OrderActivity.class);
                 break;
             case PEND_TO_TAKE:
+            case DISTRIBUTING:
                 intent.setClass(getActivity(), SuccessActivity.class);
                 break;
             default:

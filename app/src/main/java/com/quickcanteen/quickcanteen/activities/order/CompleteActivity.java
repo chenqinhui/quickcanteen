@@ -11,6 +11,7 @@ import com.quickcanteen.quickcanteen.activities.BaseActivity;
 import com.quickcanteen.quickcanteen.activities.CommentActivity;
 import com.quickcanteen.quickcanteen.activities.canteen.CanteenActivity;
 import com.quickcanteen.quickcanteen.activities.canteen.GoodsItem;
+import com.quickcanteen.quickcanteen.activities.main.MainActivity;
 import com.quickcanteen.quickcanteen.bean.DishesBean;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
 
@@ -64,10 +65,21 @@ public class CompleteActivity extends BaseActivity {
 
         BaseActivity.initializeTop(this, true, "确认取餐");
 
-        Button button1 = (Button) findViewById(R.id.commentButton);
+        //Button button1 = (Button) findViewById(R.id.commentButton);
         Button button2 = (Button) findViewById(R.id.moreButton);
 
-        switch (orders.getOrderStatus()){
+        //button1.setVisibility(View.GONE);
+        button2.setVisibility(View.VISIBLE);
+        button2.setText("确认");
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(CompleteActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /*switch (orders.getOrderStatus()){
             case NEW:
                 button1.setVisibility(View.GONE);
                 button2.setVisibility(View.GONE);
@@ -100,6 +112,9 @@ public class CompleteActivity extends BaseActivity {
                 break;
             case PREPARING:
             case DISTRIBUTING:
+            case WAITING:
+            case PEND_TO_DISTRIBUTE:
+            case CANCELLED:
                 button1.setVisibility(View.GONE);
                 button2.setVisibility(View.GONE);
                 break;
@@ -124,13 +139,9 @@ public class CompleteActivity extends BaseActivity {
                     }
                 });
                 break;
-            case CANCELLED:
-                button1.setVisibility(View.GONE);
-                button2.setVisibility(View.GONE);
-                break;
             default:
                 break;
-        }
+        }*/
 
     }
 

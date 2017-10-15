@@ -52,6 +52,11 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
     }
 
     @Override
+    public BaseJson newOrder(int ordersID) throws IOException, JSONException {
+        return updateOrderState(ordersID, OrderStatus.NOT_PAID);
+    }
+
+    @Override
     public BaseJson getTimeSlotByOrdersID(int ordersID) throws IOException, JSONException {
         Map<String, String> map = new HashMap<String, String>();
         map.put("ordersID", String.valueOf(ordersID));
@@ -60,8 +65,8 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
     }
 
     @Override
-    public BaseJson pay(int orderID) throws IOException, JSONException {
-        return updateOrderState(orderID, OrderStatus.PREPARING);
+    public BaseJson pay(int ordersID) throws IOException, JSONException {
+        return updateOrderState(ordersID, OrderStatus.WAITING);
     }
 
     @Override
@@ -113,12 +118,12 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
     }
     @Override
     public BaseJson pay(int orderID, String deliverWay) throws IOException, JSONException {
-        switch (deliverWay) {
+        /*switch (deliverWay) {
             case "取餐":
                 return updateOrderState(orderID, OrderStatus.PEND_TO_TAKE);
             case "配送":
                 return updateOrderState(orderID, OrderStatus.DISTRIBUTING);
-        }
-        return null;
+        }*/
+        return updateOrderState(orderID,OrderStatus.WAITING);
     }
 }

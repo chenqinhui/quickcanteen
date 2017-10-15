@@ -19,6 +19,8 @@ public interface IOrderAction {
 
     BaseJson pay(int orderID) throws IOException, JSONException;
 
+    BaseJson newOrder(int orderID) throws IOException, JSONException;
+
     BaseJson unsubscribe(int ordersID) throws IOException, JSONException;
 
     BaseJson takeMeal(int ordersID) throws IOException, JSONException;
@@ -32,4 +34,5 @@ public interface IOrderAction {
     BaseJson updateFinishTime(int orderID) throws IOException,JSONException;
 
     BaseJson updateStartTime(int orderID) throws IOException,JSONException;
+
 }

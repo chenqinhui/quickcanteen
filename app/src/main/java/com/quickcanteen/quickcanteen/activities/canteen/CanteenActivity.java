@@ -630,6 +630,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
             try {
                 BaseJson baseJson = orderAction.placeOrder(companyID, orderList);
                 OrderBean orderBean = new OrderBean(baseJson.getJSONObject());
+                orderAction.newOrder(orderBean.getOrderId());
                 switch (orderBean.getOrderId()) {
                     case 0:
                         message = baseJson.getErrorMessage();

@@ -7,11 +7,13 @@ public enum OrderStatus {
     NOT_PAID(20, "待支付"),
     PREPARING(30, "准备中"),
     PEND_TO_TAKE(40, "待取餐"),
-    DISTRIBUTING(50, "待配送"),
+    PEND_TO_DISTRIBUTE(50, "待配送"),
     NOT_COMMENT(60, "待评价"),
     COMPLETE(70, "已完成"),
     CANCELLED(80, "取消"),
-    CLOSED(90, "被商家取消");
+    CLOSED(90, "被商家取消"),
+    WAITING(100,"等待商家接单"),
+    DISTRIBUTING(110,"配送中");
 
 
     OrderStatus(int value, String desc) {
