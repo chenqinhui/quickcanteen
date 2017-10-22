@@ -45,8 +45,6 @@ public class MainFragment extends Fragment {
     private LinearLayoutManager recommendLayoutManager;
     private List<DishesBean> recommendList = new ArrayList<>();
 
-    private Spinner chooseCompany;
-    private List<String> company = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
     private String selected;
 
@@ -71,44 +69,6 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mainAction = new MainActionImpl(getActivity());
-        chooseCompany = (Spinner)getActivity().findViewById(R.id.chooseCompany);
-        //测试数据
-        company.add("河西食堂");
-        company.add("河东食堂");
-        company.add("丽娃食堂");
-
-        adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_style,R.id.mainPageSpinner, company);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
-        chooseCompany.setAdapter(adapter);
-        chooseCompany.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                ArrayAdapter<String> adapter = (ArrayAdapter<String>) parent.getAdapter();
-                selected = adapter.getItem(position);
-                Toast.makeText(getActivity(),selected, Toast.LENGTH_SHORT).show();
-                parent.setVisibility(View.VISIBLE);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-                Toast.makeText(getActivity(),"无", Toast.LENGTH_SHORT).show();
-                parent.setVisibility(View.VISIBLE);
-            }
-        });
-        /*下拉菜单弹出的内容选项触屏事件处理*/
-        chooseCompany.setOnTouchListener(new Spinner.OnTouchListener(){
-            public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-        });
-        /*下拉菜单弹出的内容选项焦点改变事件处理*/
-        chooseCompany.setOnFocusChangeListener(new Spinner.OnFocusChangeListener(){
-            public void onFocusChange(View v, boolean hasFocus) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-
 
         searchBtn = (SearchView)getActivity().findViewById(R.id.searchView);
         searchBtn.setOnClickListener(new View.OnClickListener() {
