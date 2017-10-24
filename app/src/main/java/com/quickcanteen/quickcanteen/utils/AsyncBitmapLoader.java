@@ -79,42 +79,38 @@ public class AsyncBitmapLoader {
                 Bitmap bitmap;
                 try {
                     bitmap = HttpUtils.getBitmapByAddress(imageURL, reqWidth, reqHeight);
+                    imageCache.put(imageURL, new SoftReference<Bitmap>(bitmap));
+                    Message msg = handler.obtainMessage(0, bitmap);
+                    handler.sendMessage(msg);
+
+                    File dir = new File("/mnt/sdcard/test/");
+                    if (!dir.exists()) {
+                        dir.mkdirs();
+                    }
+
+                    File bitmapFile = new File("/mnt/sdcard/test/" +
+                            imageURL.substring(imageURL.lastIndexOf("/") + 1));
+                    if (!bitmapFile.exists()) {
+                        try {
+                            bitmapFile.createNewFile();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                    FileOutputStream fos;
+                    try {
+                        fos = new FileOutputStream(bitmapFile);
+                        bitmap.compress(Bitmap.CompressFormat.PNG,
+                                100, fos);
+                        fos.close();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 } catch (IOException e) {
                     bitmap = null;
                 }
                 //Bitmap bitmap = dishesDAO.getBitmapByAddress(imageURL,reqWidth,reqWidth);
-                imageCache.put(imageURL, new SoftReference<Bitmap>(bitmap));
-                Message msg = handler.obtainMessage(0, bitmap);
-                handler.sendMessage(msg);
-
-                File dir = new File("/mnt/sdcard/test/");
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-
-                File bitmapFile = new File("/mnt/sdcard/test/" +
-                        imageURL.substring(imageURL.lastIndexOf("/") + 1));
-                if (!bitmapFile.exists()) {
-                    try {
-                        bitmapFile.createNewFile();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block    
-                        e.printStackTrace();
-                    }
-                }
-                FileOutputStream fos;
-                try {
-                    fos = new FileOutputStream(bitmapFile);
-                    bitmap.compress(Bitmap.CompressFormat.PNG,
-                            100, fos);
-                    fos.close();
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block    
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block    
-                    e.printStackTrace();
-                }
             }
         }.start();
 
