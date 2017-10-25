@@ -56,7 +56,10 @@
                         android:id="@+id/line3"/>
                 <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/recommendList"/>
+                        android:layout_height="match_parent"
+                        android:dividerHeight="5dp"
+                        android:divider="#00000000"
+                        android:id="@+id/recommendList"/>
             </LinearLayout>
             <Space
                     android:layout_width="match_parent"
@@ -88,6 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/noneCanteenAttention"
                         android:textAlignment="center" android:textSize="18sp"
+                        android:visibility="gone"
                         android:textColor="@color/color_history_order_none_attention"/>
             </LinearLayout>
         </LinearLayout>

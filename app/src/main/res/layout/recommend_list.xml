@@ -2,28 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="wrap_content"
               android:layout_height="wrap_content"
+              android:descendantFocusability="blocksDescendants"
               android:orientation="vertical" android:id="@+id/recommendItem">
 
-    <ImageView
-            android:layout_width="150dp"
-            android:layout_height="100dp" app:srcCompat="@drawable/menu2" android:id="@+id/recommendImg"/>
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <TextView
-                android:text="小馄饨"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/recommendName" android:textAlignment="viewStart"
-                android:textSize="18sp" android:textColor="@color/color_text_black"
-                android:layout_margin="5dp"/>
-        <TextView
-                android:text="￥8.00"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/recommendPrice"
-                android:layout_margin="5dp"
-                android:textSize="18sp" android:textStyle="normal|bold"
-                android:textColor="@color/color_dishes_introduction_price"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/nopic"
+                    android:background="@color/colorBasic4"
+                    android:id="@+id/recommendImg"
+                    android:layout_gravity="center"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:layout_weight="1">
+                <TextView
+                        android:text="菜品名称"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/recommendName"
+                        android:textAlignment="viewStart"
+                        android:textSize="18sp" android:textColor="@color/color_text_black"
+                        android:layout_margin="5dp"/>
+                <TextView
+                        android:text="价格"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recommendPrice"
+                        android:layout_margin="5dp"
+                        android:textSize="18sp" android:textStyle="normal|bold"
+                        android:textColor="@color/color_dishes_introduction_price"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

@@ -38,7 +38,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        setToolBarTitleText("登录");
+        initializeTop(this,true,"登录");
         sharedPreferences = this.getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         accountNumber = (EditText) findViewById(R.id.login_telephone);
         userPassword = (EditText) findViewById(R.id.login_password);
