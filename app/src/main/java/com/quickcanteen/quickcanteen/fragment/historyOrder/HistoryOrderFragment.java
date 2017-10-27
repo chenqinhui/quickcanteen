@@ -41,7 +41,6 @@ public class HistoryOrderFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView historyOrdersList;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Toolbar orderListToolbar;
 
     private LinearLayoutManager linearLayoutManager;
     private HistoryOrdersAdapter adapter;
@@ -63,7 +62,7 @@ public class HistoryOrderFragment extends android.support.v4.app.Fragment {
         super.onActivityCreated(savedInstanceState);
         orderAction = new OrderActionImpl(getActivity());
         //BaseActivity.initializeButtom(getActivity());
-        orderListToolbar = (Toolbar) getActivity().findViewById(R.id.orderListToolbar);
+        /*orderListToolbar = (Toolbar) getActivity().findViewById(R.id.orderListToolbar);
         orderListToolbar.setTitle("全部订单");
         ((AppCompatActivity) getActivity()).setSupportActionBar(orderListToolbar);
         orderListToolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -86,7 +85,7 @@ public class HistoryOrderFragment extends android.support.v4.app.Fragment {
                 }
                 return true;
             }
-        });
+        });*/
 
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);

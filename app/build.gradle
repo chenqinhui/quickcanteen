@@ -37,5 +37,6 @@ dependencies {
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     compile 'com.flipboard:bottomsheet-core:1.5.1'
     compile 'com.flipboard:bottomsheet-commons:1.5.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
