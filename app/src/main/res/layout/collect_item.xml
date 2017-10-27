@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <ImageView android:id="@+id/collectImg"
+               android:layout_margin="5dp"
+               android:src="@mipmap/ic_launcher"
+               android:layout_width="80dp"
+               android:layout_height="match_parent"
+               android:background="@color/color_background_light_pink"/>
+<LinearLayout android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:paddingTop="5dp"
+              android:paddingRight="5dp"
+              android:layout_height="wrap_content" android:weightSum="1">
+    <TextView
+            android:text="金拱门"
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content" android:id="@+id/collectCompanyName"
+            android:textColor="@color/color_bottom" android:textStyle="bold" android:textSize="16sp"/>
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp" app:srcCompat="@color/color_divider_line"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/imageView2"/>
+    <TextView android:text="已加入肯德基豪华套餐"
+              android:textColor="#000"
+              android:textSize="20sp"
+              android:id="@+id/collectName"
+              android:layout_marginLeft="5dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+    <RatingBar android:id="@+id/collectRating"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="5dp"
+               android:stepSize="0.5"
+               android:numStars="5"
+               android:rating="3.5"
+               android:clickable="false"
+               android:isIndicator="false" style="@style/Widget.AppCompat.RatingBar.Small"/>
+    <TextView android:id="@+id/collectPrice"
+              android:text="￥ 100"
+              android:textSize="20sp"
+              android:textColor="@color/color_text_red"
+              android:layout_margin="5dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:textStyle="normal|bold"/>
+</LinearLayout>
+</LinearLayout>
