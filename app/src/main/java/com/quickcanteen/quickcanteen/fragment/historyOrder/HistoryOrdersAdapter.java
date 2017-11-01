@@ -53,7 +53,7 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
         holder.view.setTag(position);
         holder.orderCompany.setText(orderBean.getCompanyName());
         holder.orderState.setText(orderBean.getOrderStatus().getDesc());
-        holder.orderPrice.setText(orderBean.getTotalPrice().toString());
+        holder.orderPrice.setText("￥"+(orderBean.getTotalPrice()+orderBean.getDeliverPrice()));
         if (orderBean.getDishesBeanList().size() == 1) {
             holder.orderName.setText(orderBean.getDishesBeanList().get(0).getDishesName());
         } else {
@@ -121,6 +121,7 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
                 holder.addOrder.setVisibility(View.GONE);
                 break;
             case DISTRIBUTING:
+            case PEND_TO_DISTRIBUTE:
                 holder.assessOrder.setVisibility(View.GONE);
                 holder.addOrder.setVisibility(View.GONE);
                 break;

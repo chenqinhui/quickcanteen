@@ -27,6 +27,8 @@ import com.quickcanteen.quickcanteen.activities.collect.CollectActivity;
 import com.quickcanteen.quickcanteen.activities.settings.SettingsActivity;
 import com.quickcanteen.quickcanteen.activities.userinformation.UserInformation;
 import com.quickcanteen.quickcanteen.bean.UserInfoBean;
+import com.quickcanteen.quickcanteen.fragment.DeliverFragment;
+import com.quickcanteen.quickcanteen.fragment.deliverOrder.DeliverOrderFragment;
 import com.quickcanteen.quickcanteen.fragment.historyOrder.HistoryOrderFragment;
 import com.quickcanteen.quickcanteen.fragment.main.MainFragment;
 import com.quickcanteen.quickcanteen.fragment.personal.PersonalFragment;
@@ -61,6 +63,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private IUserAction userAction = new UserActionImpl(this);
 
     private UserInfoBean userInfoBean;
+
+    private BottomNavigationBar bottomNavigationBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,24 +135,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         });
         smallHeadPortraitCircleImageView = (CircleImageView) findViewById(R.id.toolBar_head_portrait);
         smallHeadPortraitCircleImageView.setOnClickListener(this);
-        BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
-        bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
-        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
-        BadgeItem numberBadgeItem = new BadgeItem()
-                .setBorderWidth(4)
-                .setBackgroundColor(Color.RED)
-                .setText("3")
-                .setHideOnSelect(true);
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.bottom_main, "主页").setActiveColorResource(R.color.colorPrimary))
-                .addItem(new BottomNavigationItem(R.drawable.bottom_order, "历史订单").setActiveColorResource(R.color.colorPrimary))
-                .addItem(new BottomNavigationItem(R.drawable.bottom_my, "个人信息").setActiveColorResource(R.color.colorPrimary))
-                .setFirstSelectedPosition(0)
-                .initialise();
 
-        fragments = getFragments();
-        //setDefaultFragment();
-        bottomNavigationBar.setTabSelectedListener(this);
-        onTabSelected(0);
     }
 
     @Override
@@ -174,6 +161,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         fragments.add(MainFragment.newInstance());
         fragments.add(HistoryOrderFragment.newInstance());
         fragments.add(PersonalFragment.newInstance());
+        fragments.add(DeliverFragment.newInstance());
         return fragments;
     }
 
@@ -196,6 +184,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                     case 2:
                         setToolBarTitleText("个人信息");
                         fragment = PersonalFragment.newInstance();
+                        break;
+                    case 3:
+                        setToolBarTitleText("配送");
+                        fragment = DeliverFragment.newInstance();
                         break;
                     default:
                         break;
@@ -234,6 +226,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     public class MyThread implements Runnable {
         @Override
         public void run() {
+            bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+            bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
+            bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
+            BadgeItem numberBadgeItem = new BadgeItem()
+                    .setBorderWidth(4)
+                    .setBackgroundColor(Color.RED)
+                    .setText("3")
+                    .setHideOnSelect(true);
+            bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.bottom_main, "主页").setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.bottom_order, "历史订单").setActiveColorResource(R.color.colorPrimary))
+                    .addItem(new BottomNavigationItem(R.drawable.bottom_my, "个人信息").setActiveColorResource(R.color.colorPrimary));
             try {
                 BaseJson baseJson = userAction.getCurrentUserInfo();
 
@@ -252,12 +255,26 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                         if (bitmap1 != null) {
                             smallHeadPortraitCircleImageView.setImageBitmap(bitmap1);
                         }
+                        if (userInfoBean.getDeliver()) {
+                            bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.bottom_deliver, "配送").setActiveColorResource(R.color.colorPrimary));
+                        }
+
                     }
                 });
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    bottomNavigationBar.setFirstSelectedPosition(0).initialise();
+                    fragments = getFragments();
+                    //setDefaultFragment();
+                    bottomNavigationBar.setTabSelectedListener(MainActivity.this);
+                    onTabSelected(0);
 
+                }
+            });
         }
     }
 }

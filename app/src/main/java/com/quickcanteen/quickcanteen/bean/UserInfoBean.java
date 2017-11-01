@@ -8,7 +8,6 @@ import org.json.JSONObject;
 /**
  * UserInfo entity. @author MyEclipse Persistence Tools
  */
-
 public class UserInfoBean implements java.io.Serializable, JsonBean<UserInfoBean> {
 
     // Fields
@@ -24,6 +23,7 @@ public class UserInfoBean implements java.io.Serializable, JsonBean<UserInfoBean
     private String universityName;
     private Integer isAdmin;
     private Integer points;
+    private Boolean deliver;
 
     @Override
     public UserInfoBean newInstance(JSONObject jsonObject) throws JSONException {
@@ -39,6 +39,7 @@ public class UserInfoBean implements java.io.Serializable, JsonBean<UserInfoBean
 
     /**
      * default constructor
+     *
      * @param currentUserInfo
      */
     public UserInfoBean(BaseJson currentUserInfo) {
@@ -61,6 +62,7 @@ public class UserInfoBean implements java.io.Serializable, JsonBean<UserInfoBean
         this.universityName = jsonObject.getString("universityName");
         this.isAdmin = jsonObject.getInt("isAdmin");
         this.points = jsonObject.getInt("points");
+        this.deliver = jsonObject.getBoolean("deliver");
     }
 
     // Property accessors
@@ -153,5 +155,11 @@ public class UserInfoBean implements java.io.Serializable, JsonBean<UserInfoBean
         this.points = points;
     }
 
+    public Boolean getDeliver() {
+        return deliver;
+    }
 
+    public void setDeliver(Boolean deliver) {
+        this.deliver = deliver;
+    }
 }

@@ -122,8 +122,10 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
                     if (isAddCart && dishesList != null && dishesList.size() != 0) {
                         addAll();
                     }
-                    else{
+                    else if(dataList!=null&&dataList.size()==0){
                         Toast.makeText(CanteenActivity.this, "抱歉，该商家还没有开通网上订餐哦~", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
                     }
                 }
             });

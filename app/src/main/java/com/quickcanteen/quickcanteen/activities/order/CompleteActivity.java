@@ -1,6 +1,8 @@
 package com.quickcanteen.quickcanteen.activities.order;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -69,70 +71,78 @@ public class CompleteActivity extends BaseActivity {
         Button button1 = (Button) findViewById(R.id.commentButton);
         Button button2 = (Button) findViewById(R.id.moreButton);
 
-        switch (orders.getOrderStatus()){
-            case NEW:
-                button1.setVisibility(View.GONE);
-                button2.setVisibility(View.GONE);
-                break;
-            case NOT_PAID:
-                button1.setVisibility(View.GONE);
-                button2.setVisibility(View.VISIBLE);
-                button2.setText("去支付");
-                button2.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        toPay();
-                    }
-                });
-                break;
-            case NOT_COMMENT:
-                button1.setVisibility(View.VISIBLE);
-                button1.setText("评价");
-                button1.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        toComment();
-                    }
-                });
-                button2.setVisibility(View.VISIBLE);
-                button2.setText("再来一单");
-                button2.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        toAddCart();
-                    }
-                });
-                break;
-            case PREPARING:
-            case DISTRIBUTING:
-                button1.setVisibility(View.GONE);
-                button2.setVisibility(View.GONE);
-                break;
-            case PEND_TO_TAKE:
-                button1.setVisibility(View.GONE);
-                button2.setVisibility(View.VISIBLE);
-                button2.setText("确认取餐");
-                button2.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        toTakeMeal();
-                    }
-                });
-                break;
-            case COMPLETE:
-            case CLOSED:
-                button1.setVisibility(View.GONE);
-                button2.setVisibility(View.VISIBLE);
-                button2.setText("再来一单");
-                button2.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        toAddCart();
-                    }
-                });
-                break;
-            case CANCELLED:
-            case CHECKING:
-                button1.setVisibility(View.GONE);
-                button2.setVisibility(View.GONE);
-                break;
-            default:
-                break;
+        SharedPreferences sharedPreferences = this.getSharedPreferences("userInfo",Context.MODE_PRIVATE);
+        if(orders.getUserId()==sharedPreferences.getInt("userID",0)) {
+            switch (orders.getOrderStatus()) {
+                case NEW:
+                    button1.setVisibility(View.GONE);
+                    button2.setVisibility(View.GONE);
+                    break;
+                case NOT_PAID:
+                    button1.setVisibility(View.GONE);
+                    button2.setVisibility(View.VISIBLE);
+                    button2.setText("去支付");
+                    button2.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            toPay();
+                        }
+                    });
+                    break;
+                case NOT_COMMENT:
+                    button1.setVisibility(View.VISIBLE);
+                    button1.setText("评价");
+                    button1.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            toComment();
+                        }
+                    });
+                    button2.setVisibility(View.VISIBLE);
+                    button2.setText("再来一单");
+                    button2.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            toAddCart();
+                        }
+                    });
+                    break;
+                case PREPARING:
+                case DISTRIBUTING:
+                case PEND_TO_DISTRIBUTE:
+                    button1.setVisibility(View.GONE);
+                    button2.setVisibility(View.GONE);
+                    break;
+                case PEND_TO_TAKE:
+                    button1.setVisibility(View.GONE);
+                    button2.setVisibility(View.VISIBLE);
+                    button2.setText("确认取餐");
+                    button2.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            toTakeMeal();
+                        }
+                    });
+                    break;
+                case COMPLETE:
+                case CLOSED:
+                    button1.setVisibility(View.GONE);
+                    button2.setVisibility(View.VISIBLE);
+                    button2.setText("再来一单");
+                    button2.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            toAddCart();
+                        }
+                    });
+                    break;
+                case CANCELLED:
+                case CHECKING:
+                    button1.setVisibility(View.GONE);
+                    button2.setVisibility(View.GONE);
+                    break;
+                default:
+                    break;
+            }
+        }
+        else{
+            button1.setVisibility(View.GONE);
+            button2.setVisibility(View.GONE);
         }
 
     }

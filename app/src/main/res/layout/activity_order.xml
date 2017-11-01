@@ -57,26 +57,25 @@
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
                     android:background="@color/color_background_white"
-                    android:layout_weight="1"
                     android:layout_below="@+id/line1"  android:layout_centerHorizontal="true">
                 <TextView
                         android:text="菜品" android:textColor="@color/color_text_black"
                         android:layout_height="wrap_content"
                         android:id="@+id/dishName" android:layout_centerHorizontal="true"
                         android:textSize="20sp" android:textAlignment="center"
-                        android:layout_weight="0.6" android:layout_width="wrap_content"/>
+                        android:layout_weight="1.5" android:layout_width="wrap_content"/>
                 <TextView
                         android:text="数量" android:layout_centerHorizontal="true"
                         android:layout_height="wrap_content" android:textColor="@color/color_text_black"
                         android:id="@+id/dishQuantity" android:textSize="20sp"
                         android:textAlignment="center" android:layout_width="wrap_content"
-                        android:layout_weight="0.2"/>
+                        android:layout_weight="1"/>
                 <TextView
                         android:text="价格" android:textColor="@color/color_text_black"
                         android:layout_centerHorizontal="true"
                         android:layout_height="wrap_content" android:layout_below="@+id/line"
                         android:id="@+id/dishPrice"
-                        android:textSize="20sp" android:textAlignment="center" android:layout_weight="0.2"
+                        android:textSize="20sp" android:textAlignment="center" android:layout_weight="1"
                         android:layout_width="wrap_content"/>
             </LinearLayout>
             <ImageView
@@ -105,6 +104,31 @@
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_background_white"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone"
+                    android:id="@+id/deliverLayout"
+                    android:padding="10dp">
+                <TextView
+                        android:text="配送"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/deliverName" android:layout_weight="1.5"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="20sp" android:textColor="@color/color_text_black"/>
+                <TextView
+                        android:text="价格"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/deliverPrice" android:layout_weight="1"
+                        android:textAlignment="textEnd"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/color_text_black" android:textSize="20sp"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/color_background_white"
                     android:padding="10dp"
@@ -114,20 +138,22 @@
                         android:text="总计："
                         android:textColor="@color/color_text_black"
                         android:layout_height="wrap_content" android:id="@+id/totalName"
-                        android:textSize="20sp" android:textAlignment="center" android:layout_weight="0.6"
+                        android:textSize="20sp" android:layout_marginLeft="10dp" android:layout_weight="1.5"
                         android:layout_width="wrap_content"/>
                 <TextView
                         android:text="total_quantity"
                         android:textColor="@color/color_text_black"
                         android:layout_height="wrap_content" android:id="@+id/totalQuantity"
                         android:textSize="20sp" android:textAlignment="center" android:layout_width="wrap_content"
-                        android:layout_weight="0.2"/>
+                        android:layout_weight="1"/>
                 <TextView
                         android:text="total_price"
                         android:textColor="@color/color_text_black"
                         android:layout_height="wrap_content" android:id="@+id/totalPrice"
-                        android:textSize="20sp" android:textAlignment="center" android:layout_width="wrap_content"
-                        android:layout_weight="0.2"/>
+                        android:textSize="20sp" android:textAlignment="textEnd"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"/>
             </LinearLayout>
             <LinearLayout
                     android:orientation="vertical"
@@ -173,6 +199,21 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:visibility="gone" android:id="@+id/TimeSlotGroup">
+                </RadioGroup>
+                <TextView
+                        android:text="时间段"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/deliverTitle" android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:visibility="gone"
+                        android:textSize="18sp" android:textColor="@color/color_text_black"/>
+                <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:visibility="gone" android:id="@+id/locationGroup">
                 </RadioGroup>
             </LinearLayout>
             <ImageView

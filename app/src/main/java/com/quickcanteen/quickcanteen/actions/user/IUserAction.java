@@ -14,11 +14,12 @@ public interface IUserAction extends IBaseAction {
 
     BaseJson register(String accountNumber, String userPassword, String realName, String teleNum) throws IOException, JSONException;
 
-    BaseJson editPassword(int userID,String oldPassword,String newPassword)throws IOException,JSONException;
+    BaseJson editPassword(int userID, String oldPassword, String newPassword) throws IOException, JSONException;
 
-    BaseJson editUserInfo(String password,int userID ,String infoType,String correctInfo)throws  IOException,JSONException;
+    BaseJson editUserInfo(String password, int userID, String infoType, String correctInfo) throws IOException, JSONException;
 
     BaseJson getCurrentUserInfo() throws IOException, JSONException;
+
     /**
      * 验证用户信息
      *
@@ -31,9 +32,11 @@ public interface IUserAction extends IBaseAction {
     /**
      * 验证手机号
      *
-     * @param telephone        手机号
+     * @param telephone      手机号
      * @param validateNumber 验证码
      * @return 0表示信息正确，1表示错误
      */
     int validateTeleNum(String telephone, String validateNumber) throws IOException;
+
+    BaseJson signUpForDeliver() throws IOException, JSONException;
 }

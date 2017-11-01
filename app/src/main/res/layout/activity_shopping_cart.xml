@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
-    android:id="@+id/containerLayout"
-    tools:context="com.quickcanteen.activity.canteen.CanteenPage">
+    android:id="@+id/containerLayout">
 
     <include layout="@layout/layout_main_shopping_cart"
              android:layout_width="match_parent"

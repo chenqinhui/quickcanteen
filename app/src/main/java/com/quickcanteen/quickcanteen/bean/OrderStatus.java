@@ -12,7 +12,8 @@ public enum OrderStatus {
     COMPLETE(70, "已完成","评价"),
     CANCELLED(80, "取消","退订"),
     CLOSED(90, "被商家取消","拒接"),
-    CHECKING(100,"待接单","支付");
+    CHECKING(100,"待接单","支付"),
+    PEND_TO_DISTRIBUTE(110,"待配送","准备完成");
 
 
     OrderStatus(int value, String desc,String terminal) {

@@ -15,6 +15,7 @@ import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.actions.user.IUserAction;
 import com.quickcanteen.quickcanteen.actions.user.impl.UserActionImpl;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
+import com.quickcanteen.quickcanteen.activities.LocationsActivity;
 import com.quickcanteen.quickcanteen.activities.initial.InitialActivity;
 import com.quickcanteen.quickcanteen.bean.UserInfoBean;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
@@ -22,7 +23,7 @@ import com.quickcanteen.quickcanteen.utils.BaseJson;
 public class UserInformation extends BaseActivity {
 
     private TextView realName, collegeName, accountNumber, teleNum;
-    private Button exit, editpwd;
+    private Button exit, editpwd, signUpForDeliver, location;
     private ProgressBar userInfoProgressBar;
     private UserInfoBean userInfo;
     private IUserAction userAction = new UserActionImpl(this);
@@ -41,6 +42,25 @@ public class UserInformation extends BaseActivity {
         teleNum = (TextView) findViewById(R.id.userTel);
         exit = (Button) findViewById(R.id.exit);
         editpwd = (Button) findViewById(R.id.editPwd);
+        signUpForDeliver = (Button) findViewById(R.id.signUpForDeliver);
+        location = (Button) findViewById(R.id.location);
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                //bundle.putString("oldPassword", userInfo.getUserPassword());
+                intent.putExtras(bundle);
+                intent.setClass(UserInformation.this, LocationsActivity.class);
+                startActivity(intent);
+            }
+        });
+        signUpForDeliver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new SignUpForDeliverThread()).start();
+            }
+        });
         editpwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,8 +76,8 @@ public class UserInformation extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("infoType","telephone");
-                intent.setClass(UserInformation.this,EditUserInfo.class);
+                intent.putExtra("infoType", "telephone");
+                intent.setClass(UserInformation.this, EditUserInfo.class);
                 startActivity(intent);
             }
         });
@@ -84,7 +104,7 @@ public class UserInformation extends BaseActivity {
         public void run() {
             try {
                 BaseJson baseJson = userAction.getCurrentUserInfo();
-                Log.d("ReturnCode",baseJson.getReturnCode());
+                Log.d("ReturnCode", baseJson.getReturnCode());
                 userInfo = new UserInfoBean(baseJson.getJSONObject());
                 handler.post(new Runnable() {
                     @Override
@@ -104,6 +124,50 @@ public class UserInformation extends BaseActivity {
                     }
                 });
                 userInfoProgressBar.setVisibility(View.GONE);
+            }
+
+        }
+    }
+
+    public class SignUpForDeliverThread implements Runnable {
+        @Override
+        public void run() {
+            try {
+                BaseJson baseJson = userAction.signUpForDeliver();
+                Log.d("ReturnCode", baseJson.getReturnCode());
+                userInfo = new UserInfoBean(baseJson.getJSONObject());
+                if (userInfo.getDeliver()) {
+                    if (baseJson.getReturnCode().contains("E")) {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(UserInformation.this, "你已经申请过了", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(UserInformation.this, "申请成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(UserInformation.this, "申请失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+            } catch (Exception e) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(UserInformation.this, "连接错误", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
         }
