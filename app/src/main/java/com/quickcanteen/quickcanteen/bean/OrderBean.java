@@ -20,6 +20,9 @@ public class OrderBean implements Serializable {
     private Long completeTime;
     private ArrayList<DishesBean> dishesBeanList;
     private String timeSlot;
+    private Integer deliverManId;
+    private Double deliverPrice;
+    private LocationBean locationBean;
 
     public OrderBean(JSONObject jsonObject) throws JSONException {
         this.orderId = jsonObject.getInt("orderId");
@@ -31,11 +34,14 @@ public class OrderBean implements Serializable {
         this.completeTime = jsonObject.getLong("completeTime");
         this.dishesBeanList = new ArrayList<>();
         this.timeSlot = jsonObject.getString("timeslotId");
+        this.deliverManId = jsonObject.getInt("deliverManId");
+        this.deliverPrice = jsonObject.getDouble("deliverPrice");
         JSONArray jsonArray = jsonObject.getJSONArray("dishesBeanList");
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject tempJsonObject = jsonArray.getJSONObject(i);
             dishesBeanList.add(new DishesBean(tempJsonObject));
         }
+        this.locationBean = new LocationBean(jsonObject.getJSONObject("locationBean"));
     }
 
     public Integer getOrderId() {
@@ -108,5 +114,29 @@ public class OrderBean implements Serializable {
 
     public void setTimeSlot(String timeSlot) {
         this.timeSlot = timeSlot;
+    }
+
+    public Integer getDeliverManId() {
+        return deliverManId;
+    }
+
+    public void setDeliverManId(Integer deliverManId) {
+        this.deliverManId = deliverManId;
+    }
+
+    public Double getDeliverPrice() {
+        return deliverPrice;
+    }
+
+    public void setDeliverPrice(Double deliverPrice) {
+        this.deliverPrice = deliverPrice;
+    }
+
+    public LocationBean getLocationBean() {
+        return locationBean;
+    }
+
+    public void setLocationBean(LocationBean locationBean) {
+        this.locationBean = locationBean;
     }
 }

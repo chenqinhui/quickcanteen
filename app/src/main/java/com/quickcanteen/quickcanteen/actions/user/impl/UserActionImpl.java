@@ -69,6 +69,14 @@ public class UserActionImpl extends BaseActionImpl implements IUserAction {
     }
 
     @Override
+    public BaseJson signUpForDeliver() throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("userID", String.valueOf(getCurrentUserID()));
+        String result = httpConnectByPost("user/signUpForDeliver", map);
+        return new BaseJson(result);
+    }
+
+    @Override
     public int validateRealName(String accountNumber, String realName) throws IOException {
         return 0;
     }

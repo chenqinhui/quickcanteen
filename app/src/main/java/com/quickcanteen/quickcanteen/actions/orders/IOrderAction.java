@@ -1,6 +1,7 @@
 package com.quickcanteen.quickcanteen.actions.orders;
 
 import com.quickcanteen.quickcanteen.activities.canteen.GoodsItem;
+import com.quickcanteen.quickcanteen.bean.LocationBean;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
 import org.json.JSONException;
 
@@ -12,6 +13,10 @@ import java.util.List;
  */
 public interface IOrderAction {
     BaseJson getOrdersListByUserIDByPage(int pageNumber, int pageSize) throws IOException, JSONException;
+
+    BaseJson getNeedDeliverOrdersByPage(int pageNumber, int pageSize) throws IOException, JSONException;
+
+    BaseJson getDeliverOrdersByPage(int pageNumber, int pageSize) throws IOException, JSONException;
 
     BaseJson placeOrder(int companyID, List<GoodsItem> list) throws IOException, JSONException;
 
@@ -25,11 +30,15 @@ public interface IOrderAction {
 
     BaseJson comment(int ordersID) throws IOException, JSONException;
 
-    BaseJson pay(int orderID,String deliverWay) throws IOException, JSONException;
+    BaseJson pay(int orderID, String deliverWay) throws IOException, JSONException;
 
-    BaseJson updateTimeSlot(int orderID,String timeSlot) throws  IOException,JSONException;
+    BaseJson updateTimeSlot(int orderID, String timeSlot) throws IOException, JSONException;
 
-    BaseJson updateFinishTime(int orderID) throws IOException,JSONException;
+    BaseJson updateFinishTime(int orderID) throws IOException, JSONException;
 
-    BaseJson updateStartTime(int orderID) throws IOException,JSONException;
+    BaseJson updateStartTime(int orderID) throws IOException, JSONException;
+
+    BaseJson payWithDeliverAddress(int orderID, LocationBean locationBean) throws IOException, JSONException;
+
+    BaseJson askForDeliverOrder(int orderID) throws IOException, JSONException;
 }

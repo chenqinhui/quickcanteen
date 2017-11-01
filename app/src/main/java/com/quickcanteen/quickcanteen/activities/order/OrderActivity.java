@@ -6,17 +6,24 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 import com.quickcanteen.quickcanteen.R;
+import com.quickcanteen.quickcanteen.actions.location.ILocationAction;
+import com.quickcanteen.quickcanteen.actions.location.impl.LocationActionImpl;
 import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
 import com.quickcanteen.quickcanteen.actions.orders.impl.OrderActionImpl;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
+import com.quickcanteen.quickcanteen.activities.LocationsActivity;
 import com.quickcanteen.quickcanteen.activities.canteen.GoodsItem;
+import com.quickcanteen.quickcanteen.bean.LocationBean;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class OrderActivity extends BaseActivity {
 
@@ -37,11 +44,17 @@ public class OrderActivity extends BaseActivity {
     private RadioButton checkedType;
     private TextView timeSlotTitle;
     private RadioGroup timeSlotGroup;
+    private TextView deliverTitle;
+    private RadioGroup locationGroup;
     private String[] timeSlot = {"11:00-11:30", "11:30-11:45", "11:45-12:00", "12:00-12:30", "12:30-13:00", "16:30~17:00", "17:00~18:00", "18:00~19:00"};
     private IOrderAction orderAction = new OrderActionImpl(this);
+    private ILocationAction locationAction = new LocationActionImpl(this);
     private OrderBean orderBean;
     private boolean isLegal;
     private String choosetimeslot;
+    private List<LocationBean> locationBeans = new ArrayList<>();
+    private LocationBean locationBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +74,7 @@ public class OrderActivity extends BaseActivity {
         typeGroup = (RadioGroup) findViewById(R.id.typeGroup);
         timeSlotTitle = (TextView) findViewById(R.id.timeSlotTitle);
         timeSlotGroup = (RadioGroup) findViewById(R.id.TimeSlotGroup);
-
+        locationGroup = (RadioGroup) findViewById(R.id.locationGroup);
         int timeSlotCount = timeSlot.length;
         for (int i = 0; i < timeSlotCount; i++) {
             RadioButton timeSlotEach = new RadioButton(this);
@@ -82,14 +95,16 @@ public class OrderActivity extends BaseActivity {
                         timeSlotTitle.setText("选择到窗取餐的时间：");
                         timeSlotTitle.setVisibility(View.VISIBLE);
                         timeSlotGroup.setVisibility(View.VISIBLE);
+                        locationGroup.setVisibility(View.GONE);
                         break;
                     case R.id.distribution:
                         isLegal = true;
                         selected = "配送";
                         timeSlotTitle.setText("大约会在20分钟后送达");
                         timeSlotTitle.setVisibility(View.VISIBLE);
-                        timeSlotGroup.setVisibility(View.INVISIBLE);
-
+                        timeSlotGroup.setVisibility(View.GONE);
+                        locationGroup.setVisibility(View.VISIBLE);
+                        break;
                 }
             }
         });
@@ -99,10 +114,20 @@ public class OrderActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 //点击事件获取的选择对象
                 isLegal = true;
-                choosetimeslot = String.valueOf(checkedId+1);
-                orderBean.setTimeSlot(String.valueOf(checkedId+1));
+                choosetimeslot = String.valueOf(checkedId + 1);
+                orderBean.setTimeSlot(String.valueOf(checkedId + 1));
             }
         });
+
+        locationGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //点击事件获取的选择对象
+                isLegal = true;
+                locationBean = locationBeans.get(checkedId - 1);
+            }
+        });
+        new Thread(new LocationThread()).start();
 
         Bundle bundle = getIntent().getExtras();
         orderBean = (OrderBean) bundle.getSerializable("orderBean");
@@ -145,8 +170,10 @@ public class OrderActivity extends BaseActivity {
                         case 0:
                             Intent intent = new Intent();
                             if (selected.equals("取餐")) {
-                                BaseJson baseJson1 = orderAction.updateTimeSlot(ordersID,choosetimeslot);
+                                BaseJson baseJson1 = orderAction.updateTimeSlot(ordersID, choosetimeslot);
                                 int result2 = baseJson.getSingleIntegerResult();
+                            } else {
+                                orderAction.payWithDeliverAddress(ordersID, locationBean);
                             }
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("orderBean", orderBean);
@@ -162,14 +189,52 @@ public class OrderActivity extends BaseActivity {
                 } catch (Exception e) {
                     message = "连接错误";
                 }
-            } else
+            } else {
                 message = "请完善取餐信息";
+            }
             handler.post(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(OrderActivity.this, message, Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    public class LocationThread implements Runnable {
+        @Override
+        public void run() {
+            try {
+                final BaseJson baseJson = locationAction.getCurrentUserLocations();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            locationBeans = new ArrayList<>();
+                            JSONArray jsonArray = baseJson.getJSONArray();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject tempJsonObject = jsonArray.getJSONObject(i);
+                                LocationBean locationBean = new LocationBean(tempJsonObject);
+                                locationBeans.add(locationBean);
+                                RadioButton locationEach = new RadioButton(OrderActivity.this);
+                                locationEach.setId(i + 1);
+                                locationEach.setText(locationBean.getAddress());
+                                locationGroup.addView(locationEach);
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(OrderActivity.this, "连接错误", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return;
+            }
         }
     }
 

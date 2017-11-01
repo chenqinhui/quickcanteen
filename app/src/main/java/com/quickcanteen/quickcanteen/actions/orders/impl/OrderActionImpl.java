@@ -4,6 +4,7 @@ import android.app.Activity;
 import com.quickcanteen.quickcanteen.actions.BaseActionImpl;
 import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
 import com.quickcanteen.quickcanteen.activities.canteen.GoodsItem;
+import com.quickcanteen.quickcanteen.bean.LocationBean;
 import com.quickcanteen.quickcanteen.bean.OrderStatus;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
 import org.json.JSONException;
@@ -111,6 +112,7 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
         String result = httpConnectByPost("order/updateStartTime", map);
         return new BaseJson(result);
     }
+
     @Override
     public BaseJson pay(int orderID, String deliverWay) throws IOException, JSONException {
         switch (deliverWay) {
@@ -120,5 +122,41 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
                 return updateOrderState(orderID, OrderStatus.DISTRIBUTING);
         }
         return null;
+    }
+
+    @Override
+    public BaseJson payWithDeliverAddress(int orderID, LocationBean locationBean) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("orderId", String.valueOf(orderID));
+        map.put("locationId", String.valueOf(locationBean.getLocationId()));
+        String result = httpConnectByPost("order/setOrderLocation", map);
+        return new BaseJson(result);
+    }
+
+    @Override
+    public BaseJson getNeedDeliverOrdersByPage(int pageNumber, int pageSize) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("pageNumber", String.valueOf(pageNumber));
+        map.put("pageSize", String.valueOf(pageSize));
+        String result = httpConnectByPost("order/getNeedDeliverOrdersByPage", map);
+        return new BaseJson(result);
+    }
+
+    @Override
+    public BaseJson askForDeliverOrder(int orderID) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("orderId", String.valueOf(orderID));
+        map.put("userID", String.valueOf(getCurrentUserID()));
+        String result = httpConnectByPost("order/askForDeliverOrder", map);
+        return new BaseJson(result);
+    }
+
+    @Override
+    public BaseJson getDeliverOrdersByPage(int pageNumber, int pageSize) throws IOException, JSONException {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("pageNumber", String.valueOf(pageNumber));
+        map.put("pageSize", String.valueOf(pageSize));
+        String result = httpConnectByPost("order/getDeliverOrdersByPage", map);
+        return new BaseJson(result);
     }
 }

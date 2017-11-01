@@ -174,6 +174,21 @@
                         android:layout_weight="1"
                         android:visibility="gone" android:id="@+id/TimeSlotGroup">
                 </RadioGroup>
+                <TextView
+                        android:text="时间段"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/deliverTitle" android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:visibility="gone"
+                        android:textSize="18sp" android:textColor="@color/color_text_black"/>
+                <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:visibility="gone" android:id="@+id/locationGroup">
+                </RadioGroup>
             </LinearLayout>
             <ImageView
                     android:layout_width="match_parent"
