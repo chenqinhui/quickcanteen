@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
@@ -14,7 +17,6 @@ import com.quickcanteen.quickcanteen.activities.canteen.GoodsItem;
 import com.quickcanteen.quickcanteen.bean.DishesBean;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -70,7 +72,13 @@ public class CompleteActivity extends BaseActivity {
         switch (orders.getOrderStatus()){
             case NEW:
                 button1.setVisibility(View.GONE);
-                button2.setVisibility(View.GONE);
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("去支付");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toPay();
+                    }
+                });
                 break;
             case NOT_PAID:
                 button1.setVisibility(View.GONE);
@@ -101,7 +109,13 @@ public class CompleteActivity extends BaseActivity {
             case PREPARING:
             case DISTRIBUTING:
                 button1.setVisibility(View.GONE);
-                button2.setVisibility(View.GONE);
+                button2.setVisibility(View.VISIBLE);
+                button2.setText("送达");
+                button2.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        toTakeMeal();
+                    }
+                });
                 break;
             case PEND_TO_TAKE:
                 button1.setVisibility(View.GONE);

@@ -61,7 +61,7 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
 
     @Override
     public BaseJson pay(int orderID) throws IOException, JSONException {
-        return updateOrderState(orderID, OrderStatus.PREPARING);
+        return updateOrderState(orderID, OrderStatus.CHECKING);
     }
 
     @Override
@@ -111,14 +111,9 @@ public class OrderActionImpl extends BaseActionImpl implements IOrderAction {
         String result = httpConnectByPost("order/updateStartTime", map);
         return new BaseJson(result);
     }
+
     @Override
     public BaseJson pay(int orderID, String deliverWay) throws IOException, JSONException {
-        switch (deliverWay) {
-            case "取餐":
-                return updateOrderState(orderID, OrderStatus.PEND_TO_TAKE);
-            case "配送":
-                return updateOrderState(orderID, OrderStatus.DISTRIBUTING);
-        }
-        return null;
+        return updateOrderState(orderID, OrderStatus.CHECKING);
     }
 }
