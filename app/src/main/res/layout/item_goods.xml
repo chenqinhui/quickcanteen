@@ -36,7 +36,7 @@
                    android:numStars="5"
                    android:rating="3.5"
                    android:clickable="false"
-                   android:isIndicator="false" style="@style/Widget.AppCompat.RatingBar.Small"/>
+                   android:isIndicator="true" style="@style/Widget.AppCompat.RatingBar.Small"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
