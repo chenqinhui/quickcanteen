@@ -23,6 +23,7 @@ import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.actions.user.IUserAction;
 import com.quickcanteen.quickcanteen.actions.user.impl.UserActionImpl;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
+import com.quickcanteen.quickcanteen.activities.collect.CollectActivity;
 import com.quickcanteen.quickcanteen.activities.settings.SettingsActivity;
 import com.quickcanteen.quickcanteen.activities.userinformation.UserInformation;
 import com.quickcanteen.quickcanteen.bean.UserInfoBean;
@@ -111,8 +112,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                         startActivity(intent);
                         break;
                     case R.id.nav_collect:
-                        //intent.setClass(MainActivity.this, TaskListActivity.class);
-                        //intent.putExtra("userID", baseAction.getCurrentUserID());
+                        intent.setClass(MainActivity.this, CollectActivity.class);
+                        intent.putExtra("userID", userAction.getCurrentUserID());
                         intent.putExtra("title", "我的收藏");
                         startActivity(intent);
                         break;

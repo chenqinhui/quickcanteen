@@ -17,8 +17,6 @@ public interface IOrderAction {
 
     BaseJson getTimeSlotByOrdersID(int ordersID) throws IOException, JSONException;
 
-    BaseJson pay(int orderID) throws IOException, JSONException;
-
     BaseJson unsubscribe(int ordersID) throws IOException, JSONException;
 
     BaseJson takeMeal(int ordersID) throws IOException, JSONException;

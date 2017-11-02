@@ -61,31 +61,6 @@ public class HistoryOrderFragment extends android.support.v4.app.Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         orderAction = new OrderActionImpl(getActivity());
-        //BaseActivity.initializeButtom(getActivity());
-        /*orderListToolbar = (Toolbar) getActivity().findViewById(R.id.orderListToolbar);
-        orderListToolbar.setTitle("全部订单");
-        ((AppCompatActivity) getActivity()).setSupportActionBar(orderListToolbar);
-        orderListToolbar.setNavigationOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
-        orderListToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            View edit = getActivity().findViewById(R.id.action_edit);
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_edit:
-                        Toast.makeText(getActivity(), "编辑订单", 0).show();
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });*/
 
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);

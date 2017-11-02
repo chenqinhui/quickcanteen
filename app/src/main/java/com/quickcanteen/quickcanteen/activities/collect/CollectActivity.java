@@ -65,10 +65,10 @@ public class CollectActivity extends BaseActivity {
                 lastVisibleItem = layoutManager.findLastVisibleItemPosition();
             }
         });
-        if(collectList.size()==0&&pageNumber==0)
+        if(collectList.size()==0)
             noneCollectAttention.setVisibility(View.VISIBLE);
-
-
+        else
+            noneCollectAttention.setVisibility(View.GONE);
     }
 
     public class CollectThread implements Runnable {
@@ -109,6 +109,7 @@ public class CollectActivity extends BaseActivity {
                 @Override
                 public void run() {
                     collectAdapter.notifyDataSetChanged();
+                    noneCollectAttention.setVisibility(View.GONE);
                 }
             });
         }

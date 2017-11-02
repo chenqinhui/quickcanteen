@@ -13,7 +13,10 @@ import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
 import com.quickcanteen.quickcanteen.actions.orders.impl.OrderActionImpl;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
+import com.quickcanteen.quickcanteen.activities.main.MainActivity;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
+import com.quickcanteen.quickcanteen.bean.OrderStatus;
+import com.quickcanteen.quickcanteen.fragment.main.MainFragment;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
 
 public class SuccessActivity extends BaseActivity {
@@ -51,11 +54,20 @@ public class SuccessActivity extends BaseActivity {
                 new Thread(new CancelThread()).start();
             }
         });
-        Button button_to_complete = (Button) findViewById(R.id.completeButton);
+        final Button button_to_complete = (Button) findViewById(R.id.completeButton);
+        if(orderBean.getOrderStatus()== OrderStatus.PEND_TO_TAKE) {
+            button_to_cancel.setVisibility(View.GONE);
+            button_to_complete.setText("确认取餐");
+        }
         button_to_complete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new Thread(new ConfirmThread()).start();
-
+                if(orderBean.getOrderStatus()== OrderStatus.PEND_TO_TAKE)
+                    new Thread(new ConfirmThread()).start();
+                else{
+                    Intent intent = new Intent();
+                    intent.setClass(SuccessActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         new Thread(new MyThread()).start();
@@ -114,7 +126,8 @@ public class SuccessActivity extends BaseActivity {
         public void run() {
             message = "确认成功";
             try {
-                orderAction.takeMeal(ordersID);
+                BaseJson baseJson = orderAction.takeMeal(ordersID);
+                orderBean = new OrderBean(baseJson.getJSONObject());
                 orderBean.setCompleteTime(Long.parseLong(orderAction.updateFinishTime(ordersID).getJSONObject().getString("completeTime"))/1000*1000);
                 Intent intent = new Intent(SuccessActivity.this, CompleteActivity.class);
                 Bundle bundle = new Bundle();
