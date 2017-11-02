@@ -28,6 +28,7 @@ import static com.quickcanteen.quickcanteen.utils.AsyncBitmapLoader.asyncBitmapL
 public class CanteenListAdapter extends RecyclerView.Adapter<CanteenListAdapter.ViewHolder> implements View.OnClickListener{
     private List<CompanyInfoBean> mCanteenList;
     private Activity activity;
+    private AsyncBitmapLoader asyncBitmapLoader = AsyncBitmapLoader.asyncBitmapLoader;
 
 
     static class ViewHolder extends RecyclerView.ViewHolder{

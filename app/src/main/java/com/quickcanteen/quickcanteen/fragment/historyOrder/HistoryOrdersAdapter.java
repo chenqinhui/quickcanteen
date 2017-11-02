@@ -81,7 +81,7 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
                 holder.assessOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        skip(orderBean);
+                        toComment(orderBean);
                     }
                 });
                 holder.addOrder.setOnClickListener(new View.OnClickListener() {
@@ -182,15 +182,12 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
         }
     }
 
-    public void toAssess(OrderBean orderBean) {
-        String str_company = orderBean.getCompanyName();
+    public void toComment(OrderBean orderBean) {
         Intent intent = new Intent();
-        intent.setClass(getActivity(), CommentActivity.class);
-
         Bundle bundle = new Bundle();
         bundle.putSerializable("orderBean", orderBean);
-        bundle.putString("company_name", str_company);
         intent.putExtras(bundle);
+        intent.setClass(getActivity(), CommentActivity.class);
         startActivity(intent);
     }
 
@@ -206,9 +203,6 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
             /*case PEND_TO_TAKE:
                 intent.setClass(getActivity(), SuccessActivity.class);
                 break;*/
-            case NOT_COMMENT:
-                intent.setClass(getActivity(), CommentActivity.class);
-                break;
             default:
                 intent.setClass(getActivity(), CompleteActivity.class);
                 break;

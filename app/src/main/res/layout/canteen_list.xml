@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/canteenRating"
                 android:layout_margin="5dp"
+                android:isIndicator="true"
                 android:clickable="false"
                 style="@style/Base.Widget.AppCompat.RatingBar.Small" android:numStars="5" android:rating="5"/>
         <TextView

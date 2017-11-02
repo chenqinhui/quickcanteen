@@ -122,6 +122,9 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
                     if (isAddCart && dishesList != null && dishesList.size() != 0) {
                         addAll();
                     }
+                    else{
+                        Toast.makeText(CanteenActivity.this, "抱歉，该商家还没有开通网上订餐哦~", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -160,11 +163,13 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                GoodsItem item = dataList.get(firstVisibleItem);
-                if (typeAdapter.selectTypeId != item.typeId) {
-                    typeAdapter.selectTypeId = item.typeId;
-                    typeAdapter.notifyDataSetChanged();
-                    rvType.smoothScrollToPosition(getSelectedGroupPosition(item.typeId));
+                if(dataList.size()!=0) {
+                    GoodsItem item = dataList.get(firstVisibleItem);
+                    if (typeAdapter.selectTypeId != item.typeId) {
+                        typeAdapter.selectTypeId = item.typeId;
+                        typeAdapter.notifyDataSetChanged();
+                        rvType.smoothScrollToPosition(getSelectedGroupPosition(item.typeId));
+                    }
                 }
             }
         });

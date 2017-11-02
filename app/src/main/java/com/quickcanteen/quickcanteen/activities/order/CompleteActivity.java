@@ -127,6 +127,7 @@ public class CompleteActivity extends BaseActivity {
                 });
                 break;
             case CANCELLED:
+            case CHECKING:
                 button1.setVisibility(View.GONE);
                 button2.setVisibility(View.GONE);
                 break;
