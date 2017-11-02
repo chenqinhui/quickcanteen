@@ -6,7 +6,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
-public interface ICommentAction  extends IBaseAction  {
-    BaseJson postComment(int objectId,String commentContent,double rating,int isCompany) throws IOException, JSONException;
-
+public interface IGetCommentAction extends IBaseAction{
+    BaseJson getCommentByDishesId(int dishesId /**, List<UserCommentBean> list**/) throws IOException, JSONException;
 }

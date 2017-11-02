@@ -79,6 +79,7 @@ public class GoodsAdapter extends BaseAdapter implements StickyListHeadersAdapte
         GoodsItem item = dataList.get(position);
         holder.bindData(item);
         return convertView;
+
     }
 
     class ItemViewHolder implements View.OnClickListener {
