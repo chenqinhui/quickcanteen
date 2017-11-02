@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.actions.user.IUserAction;
 import com.quickcanteen.quickcanteen.actions.user.impl.UserActionImpl;
+import com.quickcanteen.quickcanteen.activities.collect.CollectActivity;
 import com.quickcanteen.quickcanteen.activities.userinformation.UserInformation;
 import com.quickcanteen.quickcanteen.bean.UserInfoBean;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
@@ -56,18 +57,18 @@ public class PersonalFragment extends Fragment {
                 .intent.setClass(PersonalFragment.this,Assess.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
-        Button button_to_collect=(Button)findViewById(R.id.collect_jump);
+        Button button_to_collect=(Button)getActivity().findViewById(R.id.collect_jump);
         button_to_collect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent=new Intent();
-                intent.setClass(PersonalFragment.this,Collect.class);
+                intent.setClass(getActivity(),CollectActivity.class);
                 startActivity(intent);
 
             }
         });
-*/
+
         /*button_to_help=(Button)getActivity().findViewById(R.id.help_jump);
         button_to_help.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

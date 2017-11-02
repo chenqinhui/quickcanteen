@@ -7,12 +7,14 @@ import android.view.View;
 import android.widget.*;
 import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
+import com.quickcanteen.quickcanteen.actions.orders.impl.OrderActionImpl;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
 import com.quickcanteen.quickcanteen.activities.CommentActivity;
 import com.quickcanteen.quickcanteen.activities.canteen.CanteenActivity;
 import com.quickcanteen.quickcanteen.activities.canteen.GoodsItem;
 import com.quickcanteen.quickcanteen.bean.DishesBean;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
+import com.quickcanteen.quickcanteen.utils.BaseJson;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -32,7 +34,7 @@ public class CompleteActivity extends BaseActivity {
     private static Handler handler = new Handler();
     private String message;
     private OrderBean orders;
-    private IOrderAction orderAction;
+    private IOrderAction orderAction = new OrderActionImpl(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,12 +184,39 @@ public class CompleteActivity extends BaseActivity {
     }
 
     public void toTakeMeal() {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("orderBean", orders);
-        intent.putExtras(bundle);
-        intent.setClass(this, SuccessActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent();
+        //Bundle bundle = new Bundle();
+        //bundle.putSerializable("orderBean", orders);
+        //intent.putExtras(bundle);
+        //intent.setClass(this, SuccessActivity.class);
+        //startActivity(intent);
+        new Thread(new ConfirmThread()).start();
+    }
+
+    class ConfirmThread implements Runnable {
+        @Override
+        public void run() {
+            message = "确认成功";
+            try {
+                BaseJson baseJson = orderAction.takeMeal(orders.getOrderId());
+                orders = new OrderBean(baseJson.getJSONObject());
+                orders.setCompleteTime(Long.parseLong(orderAction.updateFinishTime(orders.getOrderId()).getJSONObject().getString("completeTime"))/1000*1000);
+                Intent intent = new Intent(CompleteActivity.this, CompleteActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("orderBean", orders);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            } catch (Exception e) {
+                message = "连接错误";
+            }
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(CompleteActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
 

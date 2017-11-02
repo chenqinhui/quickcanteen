@@ -21,6 +21,7 @@ public class DishesBean implements Serializable {
     private Double rating;
     private Integer count;
     private Integer available;
+    private String companyName;
 
     public DishesBean(JSONObject jsonObject) throws JSONException {
         this.dishesId = jsonObject.getInt("dishesId");
@@ -35,6 +36,7 @@ public class DishesBean implements Serializable {
         this.rating = jsonObject.getDouble("rating");
         this.count = jsonObject.getInt("count");
         this.available = jsonObject.getInt("available");
+        this.companyName = jsonObject.getString("companyName");
     }
 
     public Integer getDishesId() {
@@ -131,5 +133,13 @@ public class DishesBean implements Serializable {
 
     public void setAvailable(Integer available) {
         this.available = available;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

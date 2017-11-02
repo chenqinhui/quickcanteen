@@ -2,6 +2,7 @@ package com.quickcanteen.quickcanteen.fragment.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,8 +16,11 @@ import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.activities.canteen.CanteenActivity;
 import com.quickcanteen.quickcanteen.bean.CompanyInfoBean;
 import com.quickcanteen.quickcanteen.bean.UserCommentBean;
+import com.quickcanteen.quickcanteen.utils.AsyncBitmapLoader;
 
 import java.util.List;
+
+import static com.quickcanteen.quickcanteen.utils.AsyncBitmapLoader.asyncBitmapLoader;
 
 /**
  * Created by Cynthia on 2017/7/11.
@@ -67,6 +71,18 @@ public class CanteenListAdapter extends RecyclerView.Adapter<CanteenListAdapter.
         CompanyInfoBean companyInfoItem = mCanteenList.get(position);
         holder.canteenName.setText(companyInfoItem.getCompanyName());
         holder.canteenRating.setRating(companyInfoItem.getRating().floatValue());
+        holder.itemView.setTag(position);
+
+        Bitmap bitmap = asyncBitmapLoader.loadBitmap(holder.canteenImg, companyInfoItem.getCompanyPortrait(), holder.canteenImg.getLayoutParams().width, holder.canteenImg.getLayoutParams().height, new AsyncBitmapLoader.ImageCallBack() {
+            @Override
+            public void imageLoad(ImageView imageView, Bitmap bitmap) {
+                // TODO Auto-generated method stub
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+        if(bitmap!=null){
+            holder.canteenImg.setImageBitmap(bitmap);
+        }
         holder.itemView.setTag(position);
         /*
         * busyDegree指食堂当前的拥挤程度

@@ -81,7 +81,7 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
                 holder.assessOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        toComment(orderBean);
+                        skip(orderBean);
                     }
                 });
                 holder.addOrder.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +143,10 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
                 holder.assessOrder.setVisibility(View.GONE);
                 holder.addOrder.setVisibility(View.GONE);
                 break;
+            case CHECKING:
+                holder.assessOrder.setVisibility(View.GONE);
+                holder.addOrder.setVisibility(View.GONE);
+                break;
             default:
                 break;
         }
@@ -199,8 +203,11 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
             case NOT_PAID:
                 intent.setClass(getActivity(), OrderActivity.class);
                 break;
-            case PEND_TO_TAKE:
+            /*case PEND_TO_TAKE:
                 intent.setClass(getActivity(), SuccessActivity.class);
+                break;*/
+            case NOT_COMMENT:
+                intent.setClass(getActivity(), CommentActivity.class);
                 break;
             default:
                 intent.setClass(getActivity(), CompleteActivity.class);
@@ -221,15 +228,6 @@ public class HistoryOrdersAdapter extends RecyclerView.Adapter<HistoryOrdersAdap
         bundle.putSerializable("companyName",orderBean.getCompanyName());
         intent.putExtras(bundle);
         intent.setClass(getActivity(), CanteenActivity.class);
-        startActivity(intent);
-    }
-
-    public void toComment(OrderBean orderBean) {
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("orderBean", orderBean);
-        intent.putExtras(bundle);
-        intent.setClass(getActivity(), CommentActivity.class);
         startActivity(intent);
     }
 

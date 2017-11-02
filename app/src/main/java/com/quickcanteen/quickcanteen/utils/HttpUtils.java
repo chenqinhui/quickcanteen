@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by 11022 on 2017/5/14.
  */
 public class HttpUtils extends UploadFileUtils {
-    protected static final String path = "http://10.0.3.2:8080/";
+    protected static final String path = "http://quickcanteen-1252946747.cossh.myqcloud.com";
 
     /**
      * 通过web服务获取数据的主要函数

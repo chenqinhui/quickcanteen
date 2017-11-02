@@ -139,14 +139,16 @@ public class OrderActivity extends BaseActivity {
             message = "支付成功";
             if (isLegal) {
                 try {
-                    BaseJson baseJson = orderAction.pay(ordersID, selected);
-                    int result = baseJson.getSingleIntegerResult();
+                    BaseJson payJson = orderAction.pay(ordersID, selected);
+                    OrderBean orderBean = new OrderBean(payJson.getJSONObject());
+                    String result = payJson.getReturnCode();
                     switch (result) {
-                        case 0:
+                        case "6.0":
                             Intent intent = new Intent();
                             if (selected.equals("取餐")) {
-                                BaseJson baseJson1 = orderAction.updateTimeSlot(ordersID,choosetimeslot);
-                                int result2 = baseJson.getSingleIntegerResult();
+                                BaseJson timeSlotJson = orderAction.updateTimeSlot(ordersID,choosetimeslot);
+                                orderBean = new OrderBean(timeSlotJson.getJSONObject());
+                                String message= timeSlotJson.getReturnCode();
                             }
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("orderBean", orderBean);
@@ -156,7 +158,7 @@ public class OrderActivity extends BaseActivity {
                             finish();
                             break;
                         default:
-                            message = baseJson.getErrorMessage();
+                            message = payJson.getErrorMessage();
                             break;
                     }
                 } catch (Exception e) {

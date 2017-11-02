@@ -2,6 +2,7 @@ package com.quickcanteen.quickcanteen.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
@@ -29,6 +30,8 @@ public class AsyncBitmapLoader {
         if (imageURL == null || imageURL.equals("")) {
             return null;
         }
+        final String path = Environment.getExternalStorageDirectory().getPath() + "/quickcanteen/";
+
         //在内存缓存中，则返回Bitmap对象    
         if (imageCache.containsKey(imageURL)) {
             SoftReference<Bitmap> reference = imageCache.get(imageURL);
@@ -37,11 +40,11 @@ public class AsyncBitmapLoader {
                 return bitmap;
             }
         } else {
-            /**
+            /*
              * 加上一个对本地缓存的查找   
              */
             String bitmapName = imageURL.substring(imageURL.lastIndexOf("/") + 1);
-            File cacheDir = new File("/mnt/sdcard/test/");
+            File cacheDir = new File(path);
             File[] cacheFiles = cacheDir.listFiles();
             int i = 0;
             if (null != cacheFiles) {
@@ -52,7 +55,7 @@ public class AsyncBitmapLoader {
                 }
 
                 if (i < cacheFiles.length) {
-                    return BitmapFactory.decodeFile("/mnt/sdcard/test/" + bitmapName);
+                    return BitmapFactory.decodeFile(path + bitmapName);
                 }
             }
         }
@@ -70,50 +73,41 @@ public class AsyncBitmapLoader {
 
         //如果不在内存缓存中，也不在本地（被jvm回收掉），则开启线程下载图片    
         new Thread() {
-            /* (non-Javadoc)   
-             * @see java.lang.Thread#run()   
-             */
             @Override
             public void run() {
                 // TODO Auto-generated method stub
                 Bitmap bitmap;
                 try {
                     bitmap = HttpUtils.getBitmapByAddress(imageURL, reqWidth, reqHeight);
-                } catch (IOException e) {
-                    bitmap = null;
-                }
-                //Bitmap bitmap = dishesDAO.getBitmapByAddress(imageURL,reqWidth,reqWidth);
-                imageCache.put(imageURL, new SoftReference<Bitmap>(bitmap));
-                Message msg = handler.obtainMessage(0, bitmap);
-                handler.sendMessage(msg);
+                    imageCache.put(imageURL, new SoftReference<Bitmap>(bitmap));
+                    Message msg = handler.obtainMessage(0, bitmap);
+                    handler.sendMessage(msg);
 
-                File dir = new File("/mnt/sdcard/test/");
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
+                    File dir = new File(path);
+                    if (!dir.exists()) {
+                        dir.mkdirs();
+                    }
 
-                File bitmapFile = new File("/mnt/sdcard/test/" +
-                        imageURL.substring(imageURL.lastIndexOf("/") + 1));
-                if (!bitmapFile.exists()) {
+                    File bitmapFile = new File(path +
+                            imageURL.substring(imageURL.lastIndexOf("/") + 1));
+                    if (!bitmapFile.exists()) {
+                        try {
+                            bitmapFile.createNewFile();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                    FileOutputStream fos;
                     try {
-                        bitmapFile.createNewFile();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block    
+                        fos = new FileOutputStream(bitmapFile);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                        fos.close();
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
-                FileOutputStream fos;
-                try {
-                    fos = new FileOutputStream(bitmapFile);
-                    bitmap.compress(Bitmap.CompressFormat.PNG,
-                            100, fos);
-                    fos.close();
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block    
-                    e.printStackTrace();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block    
-                    e.printStackTrace();
+                    bitmap = null;
                 }
             }
         }.start();
