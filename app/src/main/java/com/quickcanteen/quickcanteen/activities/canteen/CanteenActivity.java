@@ -1,27 +1,34 @@
 package com.quickcanteen.quickcanteen.activities.canteen;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Handler;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.*;
 import android.widget.*;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.quickcanteen.quickcanteen.R;
+import com.quickcanteen.quickcanteen.actions.comment.IGetCommentAction;
+import com.quickcanteen.quickcanteen.actions.comment.impl.GetCommentActionImpl;
 import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
 import com.quickcanteen.quickcanteen.actions.orders.impl.OrderActionImpl;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
 import com.quickcanteen.quickcanteen.activities.order.OrderActivity;
 import com.quickcanteen.quickcanteen.bean.OrderBean;
+import com.quickcanteen.quickcanteen.bean.UserCommentBean;
 import com.quickcanteen.quickcanteen.utils.AsyncBitmapLoader;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import java.text.NumberFormat;
@@ -47,6 +54,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
     private DishesIntroduction dishesIntroduction;
     private View dishesIntroductionView;
     private ProgressBar shoppingProgressBar;
+    private CanteenActivity canteenActivity = this;
 
     private double startPrice = 20.00;
 
@@ -55,6 +63,9 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
     private Handler mHanlder;
     private String message;
 
+    private DisplayCommentAdapter displayCommentAdapter;
+    private List<UserCommentBean> userCommentBeans = new ArrayList<>();
+    private IGetCommentAction getCommentAction = new GetCommentActionImpl(canteenActivity);
 
     private ProgressDialog dialog;
     private static Handler handler = new Handler();
@@ -102,6 +113,8 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         selectedList = new SparseArray<GoodsItem>();
         groupSelect = new SparseIntArray();
 
+
+
     }
 
     public class MyThread implements Runnable {
@@ -127,6 +140,8 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
 
         }
     }
+
+
 
 
     @Override
@@ -265,6 +280,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         dishesIntroductionView = layoutInflater.inflate(R.layout.activity_dishes_introduction, null);
         dishesIntroduction = new DishesIntroduction(dishesIntroductionView);
         dishesIntroduction.bindData(item);
+
         main.addView(dishesIntroductionView);
         isDishesIntroduction = true;
     }
@@ -286,27 +302,40 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         return true;
     }
 
-    class DishesIntroduction implements View.OnClickListener {
-        private TextView name, price, tvAdd, tvMinus, tvCount, dishesIntroduce;
+    public class DishesIntroduction implements View.OnClickListener {
+        private TextView name, price, tvAdd, tvMinus, tvCount, dishesIntroduce, noneAssessAttention;
         private GoodsItem item;
         private RatingBar ratingBar;
         private ImageView dishesImage;
+        //private Button collectButton;
+
+        private RecyclerView userAssessList;
+        //private DisplayCommentAdapter displayCommentAdapter;
+        //private LinearLayoutManager linearLayoutManager ;
+        //private List<UserCommentBean> userCommentBeans = new ArrayList<>();
+        //private IGetCommentAction getCommentAction = new GetCommentActionImpl(canteenActivity);
         private android.support.v7.widget.Toolbar successToolBar;
 
         public DishesIntroduction(final View dishesIntroductionView) {
             name = (TextView) dishesIntroductionView.findViewById(R.id.dishesName);
             price = (TextView) dishesIntroductionView.findViewById(R.id.dishesPrice);
             dishesIntroduce = (TextView) dishesIntroductionView.findViewById(R.id.dishesIntroduce);
-            tvCount = (TextView) dishesIntroductionView.findViewById(R.id.count);
+            tvCount = (TextView) dishesIntroductionView.findViewById(R.id.tvCount);
             tvMinus = (TextView) dishesIntroductionView.findViewById(R.id.tvMinus);
             tvAdd = (TextView) dishesIntroductionView.findViewById(R.id.tvAdd);
             ratingBar = (RatingBar) dishesIntroductionView.findViewById(R.id.dishesRating);
             dishesImage = (ImageView) dishesIntroductionView.findViewById(R.id.dishesImg);
-            //successToolBar = (Toolbar) dishesIntroductionView.findViewById(R.id.successToolBar);
+            //collectButton = (Button) dishesIntroductionView.findViewById(R.id.collectButton);
+
+            noneAssessAttention = (TextView) dishesIntroductionView.findViewById(R.id.noneAssessAttention);
+            userAssessList = (RecyclerView) dishesIntroductionView.findViewById(R.id.userAssessList);
+
+            successToolBar = (android.support.v7.widget.Toolbar) dishesIntroductionView.findViewById(R.id.successToolBar);
+            successToolBar.setTitle("菜品详情");
             setSupportActionBar(successToolBar);
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            successToolBar.setNavigationIcon(R.drawable.return_img);
+            //successToolBar.setNavigationIcon(R.drawable.return_img);
             successToolBar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -343,10 +372,61 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
                 }
             });*/
 
+
+            //userAssessList.setLayoutManager(new LinearLayoutManager(dishesIntroductionView.getContext()));
+            userAssessList.setLayoutManager(new LinearLayoutManager(canteenActivity.getApplicationContext()));
+            //new Thread(new DishesIntroThread()).start();
+            displayCommentAdapter = new DisplayCommentAdapter(userCommentBeans);
+            userAssessList.setAdapter(displayCommentAdapter);
+            //displayCommentAdapter = new DisplayCommentAdapter(userCommentBeans, this);
+
+
+
             tvMinus.setOnClickListener(this);
             tvAdd.setOnClickListener(this);
+           /* collectButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            }); */
             dishesIntroductionView.setOnClickListener(this);
+
         }
+
+        public class DishesIntroThread implements Runnable{
+            @Override
+            public void run(){
+                try{
+                    BaseJson baseJson = getCommentAction.getCommentByDishesId(item.id );
+                    List<UserCommentBean> newCommentList = new ArrayList<>();
+                    JSONArray jsonArray = baseJson.getJSONArray();
+                    for(int i = 0; i<jsonArray.length(); i++){
+                        JSONObject tempJsonObject = jsonArray.getJSONObject(i);
+                        newCommentList.add(new UserCommentBean(tempJsonObject));
+
+                        userCommentBeans.addAll(newCommentList);
+                    }
+                }catch (Exception e){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "这里连接错误", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                     ;
+                   // e.printStackTrace();
+                    return;
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        displayCommentAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }
+
 
 
         public void clear() {
@@ -362,7 +442,12 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
             tvCount.setText(String.valueOf(item.count));
             price.setText(numberFormat.format(item.price));
             dishesIntroduce.setText(item.introduce);
-            successToolBar.setTitle(item.name);
+            new Thread(new DishesIntroThread()).start();
+            if(userCommentBeans.size() != 0){
+                noneAssessAttention.setVisibility(View.INVISIBLE);
+            }
+
+            //successToolBar.setTitle(item.name);
             if (item.count < 1) {
                 tvCount.setVisibility(View.GONE);
                 tvMinus.setVisibility(View.GONE);
@@ -387,6 +472,9 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
                 new Thread(new LoadDishesPictureThread(item.pictureAddress, layoutParams.width, layoutParams.height)).start();
             }
             dishesImage.setImageBitmap(item.picture);*/
+
+
+
         }
 
         /*class LoadDishesPictureThread implements Runnable {

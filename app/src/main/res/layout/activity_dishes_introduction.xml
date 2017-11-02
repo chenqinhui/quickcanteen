@@ -39,6 +39,10 @@
                     android:id="@+id/dishesImg"
                     android:contentDescription="菜品图片"
                     app:srcCompat="@drawable/nopic"/>
+            <Button
+                    android:text="收藏"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/collectButton"/>
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -87,13 +91,13 @@
                               android:layout_width="30dp"
                               android:layout_height="30dp"/>
                     <TextView android:text="0"
-                              android:id="@+id/count"
+                              android:id="@+id/tvCount"
                               android:minWidth="20dp"
                               android:layout_gravity="center_vertical"
                               android:textSize="@dimen/text_size_primary"
                               android:gravity="center"
                               android:layout_width="wrap_content"
-                              android:layout_height="wrap_content" />
+                              android:layout_height="wrap_content"/>
                     <TextView android:clickable="true"
                               android:id="@+id/tvAdd"
                               android:textStyle="bold"
@@ -140,11 +144,13 @@
                     android:id="@+id/noneAssessAttention"
                     android:textAlignment="center"
             />
-            <ListView
+            <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:id="@+id/userAssessList"
-                    />
+                    android:layout_height="match_parent" android:id="@+id/userAssessList">
+            </android.support.v7.widget.RecyclerView>
+            <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
         </LinearLayout>
     </ScrollView>
 

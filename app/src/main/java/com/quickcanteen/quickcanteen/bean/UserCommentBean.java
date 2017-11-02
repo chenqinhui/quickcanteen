@@ -11,17 +11,21 @@ import java.io.Serializable;
 public class UserCommentBean implements Serializable {
     // Fields
     private Integer commentId;
-    private Integer userId;
-    private String commentContent;
-    private Integer praiseNum;
+
     private Double rating;
+
+    private String commentContent;
+
+    private String commenterName;
+
+    private String commentTimeStr;
 
     public UserCommentBean(JSONObject jsonObject) throws JSONException{
         this.commentId = jsonObject.getInt("commentId");
-        this.userId = jsonObject.getInt("userId");
         this.commentContent = jsonObject.getString("commentContent");
-        this.praiseNum = jsonObject.getInt("praiseNum");
         this.rating = jsonObject.getDouble("rating");
+        this.commenterName = jsonObject.getString("commenterName");
+        this.commentTimeStr = jsonObject.getString("commentTimeStr");
     }
 
     public Integer getCommentId() {
@@ -32,12 +36,12 @@ public class UserCommentBean implements Serializable {
         this.commentId = commentId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Double getRating() {
+        return rating;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public String getCommentContent() {
@@ -48,19 +52,19 @@ public class UserCommentBean implements Serializable {
         this.commentContent = commentContent;
     }
 
-    public Integer getPraiseNum() {
-        return praiseNum;
+    public String getCommenterName() {
+        return commenterName;
     }
 
-    public void setPraiseNum(Integer praiseNum) {
-        this.praiseNum = praiseNum;
+    public void setCommenterName(String commenterName) {
+        this.commenterName = commenterName;
     }
 
-    public Double getRating() {
-        return rating;
+    public String getCommentTimeStr() {
+        return commentTimeStr;
     }
 
-    public void setRating(Double rating) {
-        this.rating = rating;
+    public void setCommentTimeStr(String commentTimeStr) {
+        this.commentTimeStr = commentTimeStr;
     }
 }
