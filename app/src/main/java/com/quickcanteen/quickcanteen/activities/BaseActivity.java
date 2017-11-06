@@ -5,12 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import com.quickcanteen.quickcanteen.R;
+import com.quickcanteen.quickcanteen.utils.AsyncBitmapLoader;
 
 
 /**
  * Created by 11022 on 2017/5/13.
  */
 public class BaseActivity extends AppCompatActivity {
+    protected AsyncBitmapLoader asyncBitmapLoader = AsyncBitmapLoader.asyncBitmapLoader;
+
     private TextView toolBarTitle;
 
     @Override

@@ -91,7 +91,7 @@ public class GoodsAdapter extends BaseAdapter implements StickyListHeadersAdapte
 
         public ItemViewHolder(View itemView) {
             name = (TextView) itemView.findViewById(R.id.tvName);
-            price = (TextView) itemView.findViewById(R.id.tvPrice);
+            price = (TextView) itemView.findViewById(R.id.collectPrice);
             tvIntroduce = (TextView) itemView.findViewById(R.id.tvIntroduce);
             tvCount = (TextView) itemView.findViewById(R.id.count);
             tvMinus = (TextView) itemView.findViewById(R.id.tvMinus);

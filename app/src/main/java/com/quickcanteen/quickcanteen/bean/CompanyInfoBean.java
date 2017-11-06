@@ -24,6 +24,7 @@ public class CompanyInfoBean implements java.io.Serializable, JsonBean<CompanyIn
     private Integer busyDegree;
     private Long startTime;
     private Long endTime;
+    private String companyPortrait;
 
 
     // Constructors
@@ -43,6 +44,7 @@ public class CompanyInfoBean implements java.io.Serializable, JsonBean<CompanyIn
         this.endTime = jsonObject.getLong("endTime");
         this.busyDegree=jsonObject.getInt("busyDegree");
         this.rating=jsonObject.getDouble("rating");
+        this.companyPortrait=jsonObject.getString("companyPortrait");
     }
 
     @Override
@@ -114,4 +116,11 @@ public class CompanyInfoBean implements java.io.Serializable, JsonBean<CompanyIn
         this.busyDegree = busyDegree;
     }
 
+    public String getCompanyPortrait() {
+        return companyPortrait;
+    }
+
+    public void setCompanyPortrait(String companyPortrait) {
+        this.companyPortrait = companyPortrait;
+    }
 }

@@ -2,6 +2,7 @@ package com.quickcanteen.quickcanteen.fragment.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +13,11 @@ import android.widget.TextView;
 import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.activities.canteen.CanteenActivity;
 import com.quickcanteen.quickcanteen.bean.DishesBean;
+import com.quickcanteen.quickcanteen.utils.AsyncBitmapLoader;
 
 import java.util.List;
+
+import static com.quickcanteen.quickcanteen.utils.AsyncBitmapLoader.asyncBitmapLoader;
 
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.ViewHolder> implements View.OnClickListener{
     private List<DishesBean> mRecommendList;
@@ -59,8 +63,18 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
         DishesBean recommendItem = mRecommendList.get(position);
         holder.recommendName.setText(recommendItem.getDishesName());
         holder.recommendPrice.setText("￥"+recommendItem.getPrice().toString());
-        holder.recommendImg.setImageBitmap(null);//??
+        Bitmap bitmap = asyncBitmapLoader.loadBitmap(holder.recommendImg, recommendItem.getDiagrammaticSketchAddress(), holder.recommendImg.getLayoutParams().width, holder.recommendImg.getLayoutParams().height, new AsyncBitmapLoader.ImageCallBack() {
+            @Override
+            public void imageLoad(ImageView imageView, Bitmap bitmap) {
+                // TODO Auto-generated method stub
+                imageView.setImageBitmap(bitmap);
+            }
+        });
+        if(bitmap!=null){
+            holder.recommendImg.setImageBitmap(bitmap);
+        }
         holder.itemView.setTag(position);
+
 
     }
 

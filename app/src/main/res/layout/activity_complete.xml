@@ -135,26 +135,23 @@
                 android:textSize="20sp" android:textAlignment="center" android:layout_width="100dp"/>
     </LinearLayout>
     <LinearLayout
-            android:orientation="horizontal" android:layout_marginBottom="12dp"
+            android:orientation="horizontal"
             android:layout_height="50dp"
             android:id="@+id/buttonView" android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" android:layout_width="320dp">
+            android:layout_centerHorizontal="true" android:layout_width="match_parent">
         <Button
                 android:text="评价"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:id="@+id/commentButton"
                 android:textColor="@color/color_text_black" android:textAlignment="center" android:textSize="20sp"
-                android:layout_weight="1" android:background="@drawable/button_border1"/>
-        <TextView
-                android:id="@+id/null1" android:layout_weight="1" android:layout_height="50dp"
-                android:layout_width="20dp"/>
+                android:layout_weight="1" android:background="@color/color_dishes_introduction_none_assess"/>
         <Button
                 android:text="再来一单"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp" android:id="@+id/moreButton"
                 android:textSize="20sp"
                 android:textAlignment="center" android:textColor="@color/color_text_black"
-                android:layout_weight="1" android:background="@drawable/button_border1"/>
+                android:layout_weight="1" android:background="@color/colorPrimary"/>
     </LinearLayout>
 </RelativeLayout>

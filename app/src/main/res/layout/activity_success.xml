@@ -4,22 +4,22 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_success"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.quickcanteen.activity.order.SuccessActivity">
+        android:layout_height="match_parent">
 
     <include layout="@layout/top_toolbar"
              android:id="@+id/top_toolbar"/>
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" android:layout_below="@+id/top_toolbar">
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true" android:layout_below="@+id/top_toolbar"
+            android:layout_above="@+id/buttonView">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="vertical">
             <ImageView
                     app:srcCompat="@drawable/success_img"
                     android:id="@+id/successLogo" android:layout_below="@+id/top_toolbar"
-                    android:layout_marginTop="12dp" android:layout_centerHorizontal="true" android:layout_width="match_parent"
+                    android:layout_centerHorizontal="true" android:layout_width="match_parent"
                     android:layout_height="180dp"/>
             <TextView
                     android:text="  支付成功！"
@@ -55,7 +55,7 @@
                     android:id="@+id/inviteTips"
                     android:layout_gravity="center"
                     android:layout_centerHorizontal="true"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                 <TextView
                         android:layout_width="match_parent" android:textColor="@color/color_text_black"
                         android:id="@+id/successTip" android:layout_below="@+id/successHint"
@@ -68,7 +68,7 @@
                         android:layout_width="wrap_content"
                         android:layout_gravity="center"
                         android:id="@+id/successLine1"
-                        android:layout_height="35dp">
+                        android:layout_height="wrap_content">
                     <TextView
                             android:text="16:40 - 16:40" android:textColor="@color/color_personal_information_exit"
                             android:layout_height="35dp" android:id="@+id/deadline" android:layout_weight="1"
@@ -146,30 +146,26 @@
                     android:layout_below="@+id/line" android:textColor="@color/color_text_gray"
                     android:layout_centerHorizontal="true" android:id="@+id/cancelTip" android:textAlignment="center"
                     android:textSize="20sp" android:layout_height="35dp" android:layout_width="match_parent"/>
-            <LinearLayout
-                    android:orientation="horizontal" android:layout_marginBottom="12dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/page_margin"
-                    android:layout_marginRight="@dimen/page_margin"
-                    android:id="@+id/buttonView" android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true" android:layout_width="match_parent">
-                <Button
-                        android:text="退订"
-                        android:layout_height="50dp"
-                        android:id="@+id/cancelButton" android:textSize="20sp"
-                        android:textAlignment="center" android:textColor="@color/color_text_black"
-                        android:layout_weight="1" android:background="@drawable/button_border1" android:layout_width="150dp"
-                />
-                <TextView
-                        android:id="@+id/null1" android:layout_weight="1" android:layout_height="50dp"
-                        android:layout_width="20dp"/>
-                <Button
-                        android:text="确认取餐"
-                        android:layout_height="50dp" android:layout_width="150dp"
-                        android:textColor="@color/color_text_black" android:textAlignment="center" android:textSize="20sp"
-                        android:layout_weight="1" android:background="@drawable/button_border1"
-                        android:id="@+id/completeButton"/>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonView" android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" android:layout_width="match_parent">
+        <Button
+                android:text="退订"
+                android:layout_height="50dp"
+                android:id="@+id/cancelButton" android:textSize="20sp"
+                android:textAlignment="center" android:textColor="@color/color_text_black"
+                android:layout_weight="1" android:background="@color/color_dishes_introduction_none_assess"
+                android:layout_width="wrap_content"
+        />
+        <Button
+                android:text="确认"
+                android:layout_height="50dp" android:layout_width="wrap_content"
+                android:textColor="@color/color_text_black" android:textAlignment="center" android:textSize="20sp"
+                android:layout_weight="1" android:background="@color/colorPrimary"
+                android:id="@+id/completeButton"/>
+    </LinearLayout>
 </RelativeLayout>

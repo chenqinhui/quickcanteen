@@ -83,4 +83,6 @@
     <color name="grey">#607D8B</color>
     <color name="orange">#ed9e4c</color>
     <color name="white">#ffffff</color>
+
+    <color name="black">#000000</color>
 </resources>
