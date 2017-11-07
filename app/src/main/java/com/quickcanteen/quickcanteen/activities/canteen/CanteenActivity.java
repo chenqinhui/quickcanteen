@@ -3,6 +3,7 @@ package com.quickcanteen.quickcanteen.activities.canteen;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,8 @@ import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.quickcanteen.quickcanteen.R;
 import com.quickcanteen.quickcanteen.actions.comment.IGetCommentAction;
 import com.quickcanteen.quickcanteen.actions.comment.impl.GetCommentActionImpl;
+import com.quickcanteen.quickcanteen.actions.dishes.IDishesAction;
+import com.quickcanteen.quickcanteen.actions.dishes.impl.DishesActionImpl;
 import com.quickcanteen.quickcanteen.actions.orders.IOrderAction;
 import com.quickcanteen.quickcanteen.actions.orders.impl.OrderActionImpl;
 import com.quickcanteen.quickcanteen.activities.BaseActivity;
@@ -28,9 +31,11 @@ import com.quickcanteen.quickcanteen.bean.UserCommentBean;
 import com.quickcanteen.quickcanteen.utils.AsyncBitmapLoader;
 import com.quickcanteen.quickcanteen.utils.BaseJson;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +71,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
     private DisplayCommentAdapter displayCommentAdapter;
     private List<UserCommentBean> userCommentBeans = new ArrayList<>();
     private IGetCommentAction getCommentAction = new GetCommentActionImpl(canteenActivity);
+    private IDishesAction dishesAction = new DishesActionImpl(this);
 
     private ProgressDialog dialog;
     private static Handler handler = new Handler();
@@ -315,7 +321,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
         private RatingBar ratingBar;
         private ImageView dishesImage;
         private ImageButton collectButton;
-        private boolean isCollect;
+        private int isCollect;
         private RecyclerView userAssessList;
         private android.support.v7.widget.Toolbar successToolBar;
 
@@ -333,8 +339,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
             noneAssessAttention = (TextView) dishesIntroductionView.findViewById(R.id.noneAssessAttention);
             userAssessList = (RecyclerView) dishesIntroductionView.findViewById(R.id.userAssessList);
 
-            //BaseActivity.initializeTop(CanteenActivity.DishesIntroduction.this,true,"菜品详情");
-            /*successToolBar = (android.support.v7.widget.Toolbar) dishesIntroductionView.findViewById(R.id.successToolBar);
+            successToolBar = (android.support.v7.widget.Toolbar) dishesIntroductionView.findViewById(R.id.successToolBar);
             successToolBar.setTitle("菜品详情");
             setSupportActionBar(successToolBar);
             getSupportActionBar().setHomeButtonEnabled(true);
@@ -345,7 +350,7 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
                     //main.removeAllViews();
                     main.removeView(dishesIntroductionView);
                 }
-            });*/
+            });
             userAssessList.setLayoutManager(new LinearLayoutManager(canteenActivity.getApplicationContext()));
             displayCommentAdapter = new DisplayCommentAdapter(userCommentBeans);
             userAssessList.setAdapter(displayCommentAdapter);
@@ -357,12 +362,60 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
             collectButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
+                    new Thread(new CollectThread()).start();
                 }
             });
             dishesIntroductionView.setOnClickListener(this);
 
+        }
+
+        public class CollectThread implements Runnable{
+            @Override
+            public void run(){
+                try {
+                    BaseJson baseJson = dishesAction.changeCollectStatusByDishesByUserId(item.id,isCollect);
+                    String[] s = baseJson.getSingleStringResult().split(" ");
+                    switch (baseJson.getReturnCode()){
+                        case "1"://收藏成功
+                            isCollect = 1;
+                            message = "收藏成功";
+                            break;
+                        case "E.1":
+                            message = "收藏失败";
+                            break;
+                        case "0":
+                            isCollect = 0;
+                            message = "取消收藏成功";
+                            break;
+                        case "E.0":
+                            message = "取消收藏失败";
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception e){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "连接错误", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(isCollect==0){
+                            Drawable drawable = getDrawable(R.drawable.heart_test5);
+                            collectButton.setBackground(drawable);
+                        }
+                        if(isCollect==1) {
+                            Drawable drawable = getDrawable(R.drawable.heart_test6);
+                            collectButton.setBackground(drawable);
+                        }
+                    }
+                });
+            }
         }
 
         public class DishesIntroThread implements Runnable{
@@ -378,6 +431,10 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
                         newCommentList.add(new UserCommentBean(tempJsonObject));
                         userCommentBeans.addAll(newCommentList);
                     }
+
+                    BaseJson collectJson = dishesAction.getCollectStatusByUserIdByDishesId(item.id);
+                    String[] s = collectJson.getSingleStringResult().split(" ");
+                    isCollect =Integer.parseInt(s[0]);
                 }catch (Exception e){
                     handler.post(new Runnable() {
                         @Override
@@ -395,6 +452,14 @@ public class CanteenActivity extends BaseActivity implements View.OnClickListene
                         displayCommentAdapter.notifyDataSetChanged();
                         if(userCommentBeans.size()!=0)
                             noneAssessAttention.setVisibility(View.GONE);
+                        if(isCollect==0){
+                            Drawable drawable = getDrawable(R.drawable.heart_test5);
+                            collectButton.setBackground(drawable);
+                        }
+                        if(isCollect==1) {
+                            Drawable drawable = getDrawable(R.drawable.heart_test6);
+                            collectButton.setBackground(drawable);
+                        }
                     }
                 });
             }

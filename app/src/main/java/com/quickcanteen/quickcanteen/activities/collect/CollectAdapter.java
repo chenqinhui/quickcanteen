@@ -1,7 +1,9 @@
 package com.quickcanteen.quickcanteen.activities.collect;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import com.quickcanteen.quickcanteen.R;
+import com.quickcanteen.quickcanteen.activities.canteen.CanteenActivity;
+import com.quickcanteen.quickcanteen.activities.userinformation.UserInformation;
 import com.quickcanteen.quickcanteen.bean.CompanyInfoBean;
 import com.quickcanteen.quickcanteen.bean.DishesBean;
 import com.quickcanteen.quickcanteen.utils.AsyncBitmapLoader;
@@ -88,6 +92,15 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.ViewHold
 
     @Override
     public void onClick(View v) {
+        toAddCart(mCollectList.get((int)v.getTag()));
+    }
 
+    public void toAddCart(DishesBean dishesBean) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putInt("companyId",dishesBean.getCompanyId());
+        intent.putExtras(bundle);
+        intent.setClass(activity, CanteenActivity.class);
+        activity.startActivity(intent);
     }
 }
