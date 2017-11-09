@@ -31,7 +31,8 @@ public class CompleteActivity extends BaseActivity {
     private int totalQuantity = 0;
     private double totalPrice = 0;
     private ListView dishesView;
-    private TextView totalQuantityTextView, totalPriceTextView, companyNameTextView, orderTimeTextView, pickTimeTextView;
+    private TextView totalQuantityTextView, totalPriceTextView, companyNameTextView, orderTimeTextView, pickTimeTextView,deliverPriceTextView;
+    private LinearLayout deliverLayout;
 
     private static Handler handler = new Handler();
     private String message;
@@ -49,6 +50,8 @@ public class CompleteActivity extends BaseActivity {
         companyNameTextView = (TextView) findViewById(R.id.companyName);
         orderTimeTextView = (TextView) findViewById(R.id.orderTime);
         pickTimeTextView = (TextView) findViewById(R.id.pickTime);
+        deliverLayout = (LinearLayout) findViewById(R.id.deliverLayoutComplete);
+        deliverPriceTextView = (TextView)findViewById(R.id.deliverPriceComplete);
 
         Bundle bundle = this.getIntent().getExtras();
         orders = (OrderBean) bundle.getSerializable("orderBean");
@@ -56,6 +59,13 @@ public class CompleteActivity extends BaseActivity {
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         orderTimeTextView.setText(sdf.format(orders.getPublishTime()).toString());
         pickTimeTextView.setText(sdf.format(orders.getCompleteTime()).toString());
+        if(orders.getDeliverPrice()!=0) {
+            deliverLayout.setVisibility(View.VISIBLE);
+            deliverPriceTextView.setText("￥"+orders.getDeliverPrice());
+            totalPriceTextView.setText("￥"+(totalPrice+orders.getDeliverPrice()));
+        }
+        else
+            deliverLayout.setVisibility(View.GONE);
 
         ListView dishesView = (ListView) findViewById(R.id.dishesView);
         SimpleAdapter adapter = new SimpleAdapter(this, getData(orders.getDishesBeanList()), R.layout.dishes_view_content,
@@ -64,7 +74,7 @@ public class CompleteActivity extends BaseActivity {
         dishesView.setAdapter(adapter);
 
         totalQuantityTextView.setText(String.valueOf(totalQuantity));
-        totalPriceTextView.setText(numberFormat.format(totalPrice));
+        totalPriceTextView.setText("￥"+(totalPrice));
 
         BaseActivity.initializeTop(this, true, "确认取餐");
 

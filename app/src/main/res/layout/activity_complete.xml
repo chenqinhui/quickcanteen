@@ -118,9 +118,35 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="354dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:id="@+id/deliverLayoutComplete"
+            android:layout_below="@+id/line3"
+            android:padding="10dp">
+        <TextView
+                android:text="配送"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:id="@+id/deliverNameComplete" android:layout_weight="1.5"
+                android:layout_marginLeft="10dp"
+                android:textSize="20sp" android:textColor="@color/color_text_black"/>
+        <TextView
+                android:text="价格"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/deliverPriceComplete" android:layout_weight="1"
+                android:textAlignment="textEnd"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/color_text_black" android:textSize="20sp"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="354dp"
             android:layout_height="35dp"
             android:id="@+id/totalLine" android:layout_marginTop="12dp"
-            android:layout_below="@+id/dishesList" android:layout_centerHorizontal="true">
+            android:layout_below="@+id/deliverLayoutComplete" android:layout_centerHorizontal="true">
         <TextView
                 android:text="总计：" android:textColor="@color/color_text_black"
                 android:layout_height="35dp" android:id="@+id/totalName" android:layout_weight="1"

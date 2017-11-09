@@ -12,7 +12,14 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/color_background_light_pink">
+        <Button
+                android:text="新增收货地址"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/newLocations"
+                android:background="@color/color_background_light_pink" android:textSize="18sp"
+                android:textColor="@color/blue"/>
         <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

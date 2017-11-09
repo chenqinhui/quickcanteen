@@ -133,6 +133,12 @@ public class OrderActivity extends BaseActivity {
                 isLegal = true;
                 choosetimeslot = String.valueOf(checkedId + 1);
                 orderBean.setTimeSlot(String.valueOf(checkedId + 1));
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(OrderActivity.this, "当前时段已有0人下单", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         new Thread(new TimeSlotThread()).start();

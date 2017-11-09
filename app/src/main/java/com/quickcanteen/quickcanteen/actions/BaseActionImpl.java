@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class BaseActionImpl implements IBaseAction {
     protected static final String path = "http://101.132.108.158:10000/api/";
+    //protected static final String path = "http://10.0.3.2:8080/api/";
     protected Activity activity;
     protected BaseJson baseJson;
 
